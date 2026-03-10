@@ -69,16 +69,38 @@ Merge (manual + 3 paths) → semantic dedup → classify → output `questions.j
 | `manual-questions.md` | (To create) Manual question input for keyword-generator |
 | `feedback-rules.md` | (To create) Human review feedback for learning loop |
 
+## Skills Created
+
+| Skill | Directory | Status |
+|-------|-----------|--------|
+| keyword-generator | `.claude/skills/keyword-generator/` | ✅ Complete |
+| platform-sampler | `.claude/skills/platform-sampler/` | ✅ Complete |
+| scoring-engine | (not created) | Pending |
+| improvement-advisor | (not created) | Pending |
+
+### keyword-generator
+- 8-step procedure: Load config → Parse manual → Path 1 (industry LLM) → Path 2 (forum) → Path 3 (AI reverse) → Merge & dedup → Output → Human review
+- Scripts: `parse-manual-questions.py`, `call-ai-platform.py`, `fetch-forum-posts.py` (placeholder), `validate-questions.py`
+- References: `forum-api-spec.md` (placeholder)
+- Assets: `questions-template.md`
+
+### platform-sampler
+- 5-step procedure: Load config → Load questions → Sample platforms → Post-process (LLM metadata extraction) → Validate & output
+- Scripts: `sample-platform.py`, `validate-input.py`, `validate-responses.py`
+- References: `platform-rate-limits.md`
+- Assets: `responses-template.md`
+- Post-processing extracts: mentions_community, community_description, competitors_mentioned, recommendation_position, citations_to_official
+
 ## Current Status
 
-- **Phase**: Design complete for Step 1, ready to implement keyword-generator skill
+- **Phase**: Skills 1-2 created, ready for skills 3-4
 - **Branch**: `main`
 - **Last updated**: 2026-03-10
 
 ## TODO
 
-- [ ] Create keyword-generator skill using `/skill-creator`
-- [ ] Create platform-sampler skill
+- [x] Create keyword-generator skill using `/skill-creator`
+- [x] Create platform-sampler skill using `/skill-creator`
 - [ ] Create scoring-engine skill
 - [ ] Create improvement-advisor skill
 - [ ] Create AGENT.md to orchestrate the full workflow
@@ -103,6 +125,9 @@ Merge (manual + 3 paths) → semantic dedup → classify → output `questions.j
 | 2026-03-10 | MVP platforms expanded to 5: +豆包(火山引擎) +Qwen(阿里云百炼), scoring weights TBD |
 | 2026-03-10 | Created `.env.example` (6 platform API keys) and `.gitignore` |
 | 2026-03-10 | Design doc: deleted 定期更新机制/中英文双语方案, renumbered sections, updated all references |
+| 2026-03-10 | Created keyword-generator skill (8 steps, 4 scripts, follows agentskills.io spec) |
+| 2026-03-10 | Path 2 simplified: removed Issue extraction, forum posts only |
+| 2026-03-10 | Created platform-sampler skill (5 steps, 3 scripts, follows agentskills.io spec) |
 
 ## Key Decisions
 
