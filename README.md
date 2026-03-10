@@ -89,38 +89,16 @@ cp .env.example .env
 
 **约束**：
 - 每次 git commit 前**必须**先执行 `/release-skills` 更新 CHANGELOG.md
-- 不允许跳过此步骤直接提交
-- CHANGELOG 仅维护英文版本（`CHANGELOG.md`）
 
 ### /skill-creator —— 创建新 Skill
 
-在 Claude Code 中执行 `/skill-creator`，按照 [agentskills.io](https://agentskills.io) 规范创建新的 skill。
-
-**工作流**：
-
-1. 定义 skill 的 `name` 和 `description`，执行元数据校验脚本
-2. 创建目录结构：`scripts/`、`references/`、`assets/`
-3. 基于模板撰写 `SKILL.md`，使用第三人称祈使语气
-4. 识别脆弱任务，封装为 `scripts/` 下的独立脚本
-5. 最终校验，对照 `references/checklist.md` 检查
+在 Claude Code 中执行 `/skill-creator`，按照规范模版创建新的 skill。
 
 **约束**：
 - 创建新 skill 时**必须**使用 `/skill-creator`，不允许手动创建
 - `SKILL.md` 主体逻辑不超过 500 行，超出部分拆分到 `references/`
 - `name` 仅允许小写字母、数字和单连字符，1-64 字符
 - `description` 不超过 1024 字符，使用第三人称，包含反向触发条件
-
-## 开发规则摘要
-
-完整规则见 `CLAUDE.md`，以下为关键要求：
-
-1. 写代码前先描述方案，等待批准
-2. 需求不明确时先提问，不要猜测
-3. 单次任务涉及超过 3 个文件时，先拆分为小任务
-4. 修 bug 先写复现测试
-5. 每次 commit 前执行 `/release-skills`
-6. 创建 skill 使用 `/skill-creator`
-7. 每次任务完成后更新 `CLAUDE-RESUME.md`
 
 ## License
 
