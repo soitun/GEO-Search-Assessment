@@ -46,6 +46,7 @@ The system follows a 4-step pipeline:
 | 2026-03-10 | Installed release-skills and skill-creator to `.claude/skills/` |
 | 2026-03-10 | Configured CLAUDE.md development rules (rules 1-10) |
 | 2026-03-10 | Created CLAUDE-RESUME.md for session context recovery |
+| 2026-03-10 | Created README.md with usage rules for CLAUDE-RESUME.md, /release-skills, /skill-creator |
 
 ## Key Decisions
 
