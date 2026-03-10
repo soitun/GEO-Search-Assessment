@@ -1,11 +1,11 @@
 ---
 name: release-skills
-description: Universal release workflow. Auto-detects version files and changelogs. Supports Node.js, Python, Rust, Claude Plugin, and generic projects. Use when user says "release", "发布", "new version", "bump version", "push", "推送".
+description: Universal release workflow. Auto-detects version files and changelogs. Supports Node.js, Python, Rust, Claude Plugin, and generic projects. MUST run before every git commit to update CHANGELOG.md. Use when user says "release", "发布", "new version", "bump version", "push", "推送", "commit", "提交".
 ---
 
 # Release Skills
 
-Universal release workflow supporting any project type with multi-language changelog.
+Universal release workflow supporting any project type.
 
 ## Quick Start
 
@@ -41,34 +41,14 @@ Just run `/release-skills` - auto-detects your project configuration.
    - `Cargo.toml` (Rust)
    - `marketplace.json` or `.claude-plugin/marketplace.json` (Claude Plugin)
    - `VERSION` or `version.txt` (Generic)
-3. Scan for changelog files using glob patterns:
-   - `CHANGELOG*.md`
-   - `HISTORY*.md`
-   - `CHANGES*.md`
-4. Identify language of each changelog by filename suffix
-5. Display detected configuration
-
-**Language Detection Rules**:
-
-| Filename Pattern | Language |
-|------------------|----------|
-| `CHANGELOG.md` (no suffix) | en (default) |
-| `CHANGELOG.zh.md` / `CHANGELOG_CN.md` / `CHANGELOG.zh-CN.md` | zh |
-| `CHANGELOG.ja.md` / `CHANGELOG_JP.md` | ja |
-| `CHANGELOG.ko.md` / `CHANGELOG_KR.md` | ko |
-| `CHANGELOG.de.md` / `CHANGELOG_DE.md` | de |
-| `CHANGELOG.fr.md` / `CHANGELOG_FR.md` | fr |
-| `CHANGELOG.es.md` / `CHANGELOG_ES.md` | es |
-| `CHANGELOG.{lang}.md` | Corresponding language code |
+3. Scan for changelog file: `CHANGELOG.md`
+4. Display detected configuration
 
 **Output Example**:
 ```
 Project detected:
   Version file: package.json (1.2.3)
-  Changelogs:
-    - CHANGELOG.md (en)
-    - CHANGELOG.zh.md (zh)
-    - CHANGELOG.ja.md (ja)
+  Changelog: CHANGELOG.md
 ```
 
 ### Step 2: Analyze Changes Since Last Tag
@@ -109,33 +89,17 @@ Rules (in priority order):
 
 Display version change: `1.2.3 → 1.3.0`
 
-### Step 4: Generate Multi-language Changelogs
+### Step 4: Generate Changelog
 
-For each detected changelog file:
-
-1. **Identify language** from filename suffix
-2. **Detect third-party contributors**:
+1. **Detect third-party contributors**:
    - Check merge commits: `git log ${LAST_TAG}..HEAD --merges --pretty=format:"%H %s"`
    - For each merged PR, identify the PR author via `gh pr view <number> --json author --jq '.author.login'`
    - Compare against repo owner (`gh repo view --json owner --jq '.owner.login'`)
    - If PR author ≠ repo owner → third-party contributor
-3. **Generate content in that language**:
-   - Section titles in target language
-   - Change descriptions written naturally in target language (not translated)
-   - Date format: YYYY-MM-DD (universal)
+2. **Generate content**:
+   - Date format: YYYY-MM-DD
    - **Third-party contributions**: Append contributor attribution `(by @username)` to the changelog entry
-4. **Insert at file head** (preserve existing content)
-
-**Section Title Translations** (built-in):
-
-| Type | en | zh | ja | ko | de | fr | es |
-|------|----|----|----|----|----|----|-----|
-| feat | Features | 新功能 | 新機能 | 새로운 기능 | Funktionen | Fonctionnalités | Características |
-| fix | Fixes | 修复 | 修正 | 수정 | Fehlerbehebungen | Corrections | Correcciones |
-| docs | Documentation | 文档 | ドキュメント | 문서 | Dokumentation | Documentation | Documentación |
-| refactor | Refactor | 重构 | リファクタリング | 리팩토링 | Refactoring | Refactorisation | Refactorización |
-| perf | Performance | 性能优化 | パフォーマンス | 성능 | Leistung | Performance | Rendimiento |
-| breaking | Breaking Changes | 破坏性变更 | 破壊的変更 | 주요 변경사항 | Breaking Changes | Changements majeurs | Cambios importantes |
+3. **Insert at file head** (preserve existing content)
 
 **Changelog Format**:
 
@@ -159,11 +123,8 @@ Only include sections that have changes. Omit empty sections.
 - Only add `(by @username)` for contributors who are NOT the repo owner
 - Use GitHub username with `@` prefix
 - Place at the end of the changelog entry line
-- Apply to all languages consistently (always use `(by @username)` format, not translated)
 
-**Multi-language Example**:
-
-English (CHANGELOG.md):
+**Example** (CHANGELOG.md):
 ```markdown
 ## 1.3.0 - 2026-01-22
 
@@ -173,30 +134,6 @@ English (CHANGELOG.md):
 
 ### Fixes
 - Fix memory leak in connection pool
-```
-
-Chinese (CHANGELOG.zh.md):
-```markdown
-## 1.3.0 - 2026-01-22
-
-### 新功能
-- 新增用户认证模块 (by @contributor1)
-- 支持 OAuth2 登录
-
-### 修复
-- 修复连接池内存泄漏问题
-```
-
-Japanese (CHANGELOG.ja.md):
-```markdown
-## 1.3.0 - 2026-01-22
-
-### 新機能
-- ユーザー認証モジュールを追加 (by @contributor1)
-- OAuth2 ログインをサポート
-
-### 修正
-- コネクションプールのメモリリークを修正
 ```
 
 ### Step 5: Group Changes by Skill/Module
@@ -230,7 +167,7 @@ project:
 For each skill/module group (in order of changes):
 
 1. **Check README updates needed**:
-   - Scan `README*.md` for mentions of this skill/module
+   - Scan `README.md` for mentions of this skill/module
    - Verify options/flags documented correctly
    - Update usage examples if syntax changed
    - Update feature descriptions if behavior changed
@@ -238,7 +175,7 @@ For each skill/module group (in order of changes):
 2. **Stage and commit**:
    ```bash
    git add skills/<skill-name>/*
-   git add README.md README.zh.md  # If updated for this skill
+   git add README.md  # If updated for this skill
    git commit -m "<type>(<skill-name>): <meaningful description>"
    ```
 
@@ -266,7 +203,7 @@ git commit -m "docs(project): update architecture documentation"
 
 ### Step 7: Generate Changelog and Update Version
 
-1. **Generate multi-language changelogs** (as described in Step 4)
+1. **Generate changelog** (as described in Step 4)
 2. **Update version file**:
    - Read version file (JSON/TOML/text)
    - Update version number
@@ -303,7 +240,7 @@ Commits created:
   2. fix(comic): improve panel layout for long dialogues
   3. docs(project): update architecture documentation
 
-Changelog preview (en):
+Changelog preview:
   ## 1.3.0 - 2026-01-22
   ### Features
   - Add watercolor and minimalist styles to cover-image
@@ -317,10 +254,10 @@ Ready to create release commit and tag.
 
 After user confirmation:
 
-1. **Stage version and changelog files**:
+1. **Stage version and changelog file**:
    ```bash
    git add <version-file>
-   git add CHANGELOG*.md
+   git add CHANGELOG.md
    ```
 
 2. **Create release commit**:
@@ -367,15 +304,9 @@ version:
   file: package.json
   path: $.version  # JSONPath for JSON, dotted path for TOML
 
-# Changelog files (auto-detected if not specified)
+# Changelog file (auto-detected if not specified)
 changelog:
-  files:
-    - path: CHANGELOG.md
-      lang: en
-    - path: CHANGELOG.zh.md
-      lang: zh
-    - path: CHANGELOG.ja.md
-      lang: ja
+  file: CHANGELOG.md
 
   # Section mapping (conventional commit type → changelog section)
   # Use null to skip a type in changelog
@@ -412,7 +343,7 @@ When `--dry-run` is specified:
 
 Project detected:
   Version file: package.json (1.2.3)
-  Changelogs: CHANGELOG.md (en), CHANGELOG.zh.md (zh)
+  Changelog: CHANGELOG.md
 
 Last tag: v1.2.3
 Proposed version: v1.3.0
@@ -429,19 +360,12 @@ Changes grouped by skill/module:
     → Commit: fix(comic): improve panel layout for long dialogues
     → No README updates
 
-Changelog preview (en):
+Changelog preview:
   ## 1.3.0 - 2026-01-22
   ### Features
   - Add watercolor and minimalist styles to cover-image
   ### Fixes
   - Improve panel layout for long dialogues in comic
-
-Changelog preview (zh):
-  ## 1.3.0 - 2026-01-22
-  ### 新功能
-  - 为 cover-image 添加水彩和极简风格
-  ### 修复
-  - 改进 comic 长对话的面板布局
 
 Commits to create:
   1. feat(cover-image): add watercolor and minimalist styles
@@ -467,6 +391,9 @@ Trigger this skill when user requests:
 - "release", "发布", "create release", "new version", "新版本"
 - "bump version", "update version", "更新版本"
 - "prepare release"
+- "commit", "提交", "git commit"
 - "push to remote" (with uncommitted changes)
 
-**Important**: If user says "just push" or "直接 push" with uncommitted changes, STILL follow all steps above first.
+**Important**:
+- Before every git commit, this skill MUST be executed first to update CHANGELOG.md. No commit should be made without an up-to-date changelog.
+- If user says "just push", "直接 push", "just commit", or "直接提交" with uncommitted changes, STILL follow all steps above first.
