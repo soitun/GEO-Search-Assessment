@@ -23,35 +23,6 @@ questions.json        responses.json        scores.json        suggestions.json
 
 **数据流**：Skill 之间通过 JSON 文件传递数据，同时输出 Markdown 供人工审阅。
 
-## Skill 进度
-
-| Skill | 目录 | 状态 |
-|-------|------|------|
-| keyword-generator | `.claude/skills/keyword-generator/` | ✅ 已完成 |
-| platform-sampler | `.claude/skills/platform-sampler/` | ✅ 已完成 |
-| scoring-engine | — | 🔲 待创建 |
-| improvement-advisor | — | 🔲 待创建 |
-
-### keyword-generator（问题集生成）
-
-从 4 个来源生成问题集并合并去重：
-
-- **手动输入**：社区运营者在 `manual-questions.md` 中编写问题
-- **Path 1 — 行业发现**：LLM 推导社区所属行业层级，按用户意图（认知/选型/趋势/场景）生成问题
-- **Path 2 — 社区论坛**：从 Gitee/GitHub Issues 和社区论坛提取使用阶段问题
-- **Path 3 — AI 平台反向提取**：询问多个 AI 平台"关于该社区最常见的问题"，取交集
-
-输出 `questions.json`（机器读取）+ `questions.md`（人工审阅），生成后暂停等待人工反馈。
-
-### platform-sampler（平台采样）
-
-将问题集发送到 5 个 AI 搜索平台，收集原始回答：
-
-- Perplexity、ChatGPT、DeepSeek、豆包、通义千问
-
-采样后通过 LLM 后处理提取结构化元数据（是否提及社区、描述准确性、竞品排位等）。
-
-输出 `responses.json` + `responses.md`。
 
 ## 快速开始
 
