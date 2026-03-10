@@ -124,7 +124,6 @@ Merge (manual + 3 paths) → semantic dedup → classify → output `questions.j
 | 2026-03-10 | Revised 第二部分: manual input via Markdown, auto-generation aligned with 3 paths |
 | 2026-03-10 | MVP platforms expanded to 5: +豆包(火山引擎) +Qwen(阿里云百炼), scoring weights TBD |
 | 2026-03-10 | Created `.env.example` (6 platform API keys) and `.gitignore` |
-| 2026-03-10 | Design doc: deleted 定期更新机制/中英文双语方案, renumbered sections, updated all references |
 | 2026-03-10 | Created keyword-generator skill (8 steps, 4 scripts, follows agentskills.io spec) |
 | 2026-03-10 | Path 2 simplified: removed Issue extraction, forum posts only |
 | 2026-03-10 | Created platform-sampler skill (5 steps, 3 scripts, follows agentskills.io spec) |
