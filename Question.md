@@ -60,6 +60,6 @@
 | :-- | :-- |
 | 14 | MindSpore 的图算融合是什么？ |
 | 15 | MindSpore 2026 年有哪些线下活动规划？ |
-| 16 | MindSpore xxx 版本有哪些最新特性？ |
+| 16 | MindSpore 2.8.0 版本有哪些最新特性？ |
 | 17 | MindSpore 相比于 Torch，在原生支持上做了什么工作？ |
 
