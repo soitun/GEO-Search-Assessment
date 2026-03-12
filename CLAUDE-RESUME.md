@@ -16,25 +16,28 @@ GEO (Generative Engine Optimization) Search Assessment — a system that automat
 
 The system is a **skill chain orchestrated by AGENT.md**, not a web application. Pure CLI-driven via Claude Code.
 
-4-step pipeline, each step is a separate skill:
+4-step pipeline (execution steps), each step is a separate skill:
 
-1. **keyword-generator** — Generate question set from manual input + 3 auto paths
-2. **platform-sampler** — Call 5 AI platform APIs with questions, collect responses
-3. **scoring-engine** — LLM-based scoring across 4 dimensions, output comparison report
-4. **improvement-advisor** — Generate P0-P2 improvement suggestions based on scores
+1. **get-question** — Generate question set from manual input + 4 auto paths (forum, issue, industry, ai_reverse)
+2. **platform-sampler** — Call 4 AI platform APIs with questions, collect responses
+3. **scoring-engine** — Two-layer evaluation (content completeness + citation accuracy), generate P0-P2 improvement suggestions
+4. **issue-creator** — Auto-create GitCode Issues from improvement suggestions
 
 Data flows as JSON between skills, with Markdown output for human review.
 
-## Step 1 Design (keyword-generator) — AGREED
+## Step 1 Design (get-question) — AGREED
 
-Question sources: manual input + 3 parallel auto-generation paths:
+Question sources: manual input + 4 selectable auto-generation paths (`paths` param: `forum`, `issue`, `industry`, `ai_reverse`, `all`)
 
 - **Manual input**: Community operators write questions in `manual-questions.md` (Markdown), skill auto-parses to structured JSON. No YAML needed.
-- **Path 1: Industry question discovery (了解阶段)** — LLM determines community's domain hierarchy (industry → sub-domain → positioning → competitors), then generates questions by user intent (认知/选型/趋势/场景). Uses competitors for reverse expansion.
-- **Path 2: Usage question extraction (使用阶段)** — Extract from Gitee/GitHub Issues + community forums. Filter pure bugs, cluster similar issues, LLM rewrites to natural language questions. (No official doc directory for now.)
-- **Path 3: AI platform reverse extraction (使用阶段)** — Ask multiple AI platforms "what are the most common questions about {community}" and take intersection.
+- **Path 1 (PRIMARY): Forum usage question extraction (使用阶段)** — Fetch top topics from MindSpore Discourse forum (`https://discuss.mindspore.cn`) via API. Fetches from 问题求助 Help + MindSpore Lite categories + global top. LLM rewrites titles to search questions, filters pure bugs. Forum + issues are the primary question source.
+- **Path 2 (PRIMARY): Repo issue question extraction (使用阶段)** — Fetch issues from GitCode (`https://gitcode.com/mindspore/mindspore/issues`) via API (`api.gitcode.com/api/v5`). Requires `GITCODE_TOKEN`. Sorted by comments, LLM rewrites to search questions. No LLM fallback — skip if no token.
+- **Path 3: Industry question discovery (了解阶段)** — LLM determines community's domain hierarchy (industry → sub-domain → positioning → competitors), then generates questions by user intent (认知/选型/趋势/场景). Uses competitors for reverse expansion.
+- **Path 4: AI platform reverse extraction (使用阶段)** — Ask multiple AI platforms "what are the most common questions about {community}" and take intersection.
 
-Merge (manual + 3 paths) → semantic dedup → classify → output `questions.json` + `questions.md`.
+Merge (manual + selected paths) → semantic dedup → classify → output `questions.json` + `questions.md`.
+
+Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 
 **Human review checkpoint**: After generating questions, PAUSE for human review. Human filters and provides feedback. Feedback is saved to `feedback-rules.md` and incorporated into future question generation as prompt context (learning loop).
 
@@ -66,22 +69,29 @@ Merge (manual + 3 paths) → semantic dedup → classify → output `questions.j
 | `VERSION` | Current version (0.1.0) |
 | `.env.example` | API token template (6 platforms) |
 | `.gitignore` | Excludes `.env` from git |
-| `manual-questions.md` | (To create) Manual question input for keyword-generator |
+| `manual-questions.md` | (To create) Manual question input for get-question |
 | `feedback-rules.md` | (To create) Human review feedback for learning loop |
+| `GEO-Improvement-Report-Q8-Q10.md` | GEO improvement report for FAQ questions Q8-Q10 |
+| `GEO-Improvement-Report-Q4-Q7.md` | GEO improvement report for Q4-Q7 (activities, contribution, migration, version) |
+| `GEO-Improvement-Report-Q1-Q3.md` | GEO improvement report for Q1-Q3 (broad questions: install, version cadence, data sharding) |
+| `Answers/1.md` - `Answers/10.md` | Raw AI platform responses for Q1-Q10 |
+| `scoring-results.json` | Scoring engine output: 28 scored (question, platform) pairs |
+| `suggestions.md` | GEO scoring report with prioritized improvement suggestions |
 
 ## Skills Created
 
 | Skill | Directory | Status |
 |-------|-----------|--------|
-| keyword-generator | `.claude/skills/keyword-generator/` | ✅ Complete |
+| get-question | `.claude/skills/get-question/` | ✅ Complete |
 | platform-sampler | `.claude/skills/platform-sampler/` | ✅ Complete |
-| scoring-engine | (not created) | Pending |
-| improvement-advisor | (not created) | Pending |
+| scoring-engine | `.claude/skills/scoring-engine/` | ✅ Complete |
+| issue-creator | `.claude/skills/issue-creator/` | ✅ Complete |
+| improvement-advisor | `.claude/skills/improvement-advisor/` | ✅ Complete |
 
-### keyword-generator
-- 8-step procedure: Load config → Parse manual → Path 1 (industry LLM) → Path 2 (forum) → Path 3 (AI reverse) → Merge & dedup → Output → Human review
-- Scripts: `parse-manual-questions.py`, `call-ai-platform.py`, `fetch-forum-posts.py` (placeholder), `validate-questions.py`
-- References: `forum-api-spec.md` (placeholder)
+### get-question
+- 9-step procedure: Load config → Parse manual → Path 1 (forum) → Path 2 (issue) → Path 3 (industry LLM) → Path 4 (AI reverse) → Merge & dedup → Output → Human review
+- Scripts: `parse-manual-questions.py`, `call-ai-platform.py`, `fetch-forum-posts.py`, `fetch-repo-issues.py`, `validate-questions.py`
+- References: `forum-api-spec.md`, `gitcode-api-spec.md`
 - Assets: `questions-template.md`
 
 ### platform-sampler
@@ -91,22 +101,41 @@ Merge (manual + 3 paths) → semantic dedup → classify → output `questions.j
 - Assets: `responses-template.md`
 - Post-processing extracts: mentions_community, community_description, competitors_mentioned, recommendation_position, citations_to_official
 
+### scoring-engine
+- 6-step procedure: Validate inputs → Layer 1 (content completeness) → Layer 2 (citation accuracy, LLM) → Assign severity & suggestions → Compile output → Human spot-check
+- Scripts: `validate-inputs.py`, `parse-llm-score.py`, `select-spot-check.py`
+- References: `scoring-prompt-template.md`, `suggestion-rules.md`
+- Assets: `suggestions-template.md`
+- Two-layer model: Layer 1 = human-labeled `content_exists`, Layer 2 = LLM evaluates phenomena B/C/D/E
+- Outputs: `scoring-results.json`, `suggestions.md`
+
+### issue-creator
+- 5-step procedure: Load config → Parse scoring results → Deduplicate & group → Generate Issue payloads → Output summary
+- Scripts: `parse-suggestions.py`, `create-issue.py`
+- References: `gitcode-api-spec.md`
+- Assets: `issue-template.md`
+- Supports dry-run mode, outputs `created-issues.json`
+
 ## Current Status
 
-- **Phase**: Skills 1-2 created, ready for skills 3-4
+- **Phase**: All 4 pipeline skills created. Scoring-engine analysis completed for Q1,Q4,Q5,Q7,Q9,Q10.
+- **Scoring results**: `scoring-results.json` (28 scored pairs) + `suggestions.md` (7-section report)
+- **Key findings**: 5 P0 issues (all Type C citation errors), concentrated in 豆包 (3) and DeepSeek (2). Perplexity and 千问 perform best. Q1 (install) is benchmark case — 0% hallucination. Q9 (model format) has highest divergence across platforms.
 - **Branch**: `main`
-- **Last updated**: 2026-03-10
+- **Last updated**: 2026-03-12
 
 ## TODO
 
-- [x] Create keyword-generator skill using `/skill-creator`
+- [x] Create get-question skill using `/skill-creator`
 - [x] Create platform-sampler skill using `/skill-creator`
-- [ ] Create scoring-engine skill
-- [ ] Create improvement-advisor skill
+- [x] Create scoring-engine skill (design agreed, needs `/skill-creator`)
+- [x] Create issue-creator skill
+- [x] Create improvement-advisor skill
 - [ ] Create AGENT.md to orchestrate the full workflow
 - [ ] Design feedback-rules.md format and integration
 - [ ] Discuss 第一部分 (主流 AI 搜索平台分析) with user
-- [ ] Discuss 第三部分 scoring weights for 5 platforms
+- [x] Create `content-labels.json` template (human labels: content_exists per question)
+- [ ] Design scoring LLM Prompt template (待设计 3.3)
 
 ## Recent Changes
 
@@ -124,9 +153,26 @@ Merge (manual + 3 paths) → semantic dedup → classify → output `questions.j
 | 2026-03-10 | Revised 第二部分: manual input via Markdown, auto-generation aligned with 3 paths |
 | 2026-03-10 | MVP platforms expanded to 5: +豆包(火山引擎) +Qwen(阿里云百炼), scoring weights TBD |
 | 2026-03-10 | Created `.env.example` (6 platform API keys) and `.gitignore` |
-| 2026-03-10 | Created keyword-generator skill (8 steps, 4 scripts, follows agentskills.io spec) |
+| 2026-03-10 | Created get-question skill (8 steps, 4 scripts, follows agentskills.io spec) |
 | 2026-03-10 | Path 2 simplified: removed Issue extraction, forum posts only |
 | 2026-03-10 | Created platform-sampler skill (5 steps, 3 scripts, follows agentskills.io spec) |
+| 2026-03-12 | Analyzed Q8-Q10 (official FAQ) across 5 AI platforms, identified critical issues |
+| 2026-03-12 | Created GEO-Improvement-Report-Q8-Q10.md with root cause analysis and optimization roadmap |
+| 2026-03-12 | Added universal GEO recommendations (5.1-5.7) to improvement report |
+| 2026-03-12 | Created improvement-advisor skill (7 steps, 2 scripts, 2 references, 1 asset template) |
+| 2026-03-12 | 设计文档重新排版：执行步骤合并为三步，MVP 平台调整为 4 个（移除 Perplexity） |
+| 2026-03-12 | get-question: Forum→Path 1 (primary), Industry→Path 2, AI reverse→Path 3. Added `paths` selector. |
+| 2026-03-12 | fetch-forum-posts.py: Implemented Discourse API integration (discuss.mindspore.cn), no longer placeholder |
+| 2026-03-12 | forum-api-spec.md: Updated with real Discourse endpoints, categories, and topic object schema |
+| 2026-03-12 | Design doc 步骤一: Reordered paths, forum as primary, added path selectability |
+| 2026-03-12 | Added Path 2 (issue): GitCode repo issue extraction via api.gitcode.com (requires GITCODE_TOKEN) |
+| 2026-03-12 | Created fetch-repo-issues.py and references/gitcode-api-spec.md |
+| 2026-03-12 | Now 4 paths: forum, issue, industry, ai_reverse (was 3) |
+| 2026-03-12 | Scoring design agreed: two-layer (content completeness + citation accuracy), 5 phenomena (A-E) |
+| 2026-03-12 | content_exists = human pre-labeled, citation ratio = source-level, human spot-check 20% |
+| 2026-03-12 | Issue auto-creation = separate skill (issue-creator), not inside scoring-engine |
+| 2026-03-12 | Pipeline expanded to 4 steps: get-question → platform-sampler → scoring-engine → issue-creator |
+| 2026-03-12 | Ran scoring-engine on Q1,Q4,Q5,Q7,Q9,Q10 (28 pairs). Output: scoring-results.json + suggestions.md |
 
 ## Key Decisions
 
@@ -137,10 +183,18 @@ Merge (manual + 3 paths) → semantic dedup → classify → output `questions.j
 - CHANGELOG only in English (`CHANGELOG.md`)
 - Every commit must run `/release-skills` to update changelog
 - New skills must use `/skill-creator` and conform to agentskills.io spec
-- MVP platforms (5): Perplexity + ChatGPT + DeepSeek + 豆包 + Qwen
+- MVP platforms (4): ChatGPT + DeepSeek + 豆包 + Qwen（Perplexity 已移除）
 - API tokens stored in `.env`, template in `.env.example`
 - Two scenarios in parallel: 了解阶段 (industry discovery) + 使用阶段 (usage extraction)
+- Forum (Discourse API) is primary question source; all 3 paths selectable via `paths` param
+- Forum URL: https://discuss.mindspore.cn/ (Discourse, public API, no auth needed)
 - Human review checkpoint after question generation, feedback saved to `feedback-rules.md`
 - MVP question count: 30-40 (adjustable)
 - No official doc directory as data source for now
-- Scoring weights for 5 platforms: TBD (was 0.35/0.40/0.25 for 3 platforms)
+- Pipeline is 4 execution steps: get-question → platform-sampler → scoring-engine → issue-creator
+- Scoring uses two-layer model: Layer 1 = content completeness (human pre-labeled), Layer 2 = citation accuracy (LLM)
+- Five phenomena: A (no content), B (not cited), C (wrong citation), D (high ratio), E (low ratio)
+- Citation ratio = source-level (official sources / total sources), not content word count
+- `content_exists` per question is human pre-labeled in `content-labels.json`
+- Scoring results require human spot-check calibration (20% stratified sampling → `scoring-calibration.md`)
+- Issue auto-creation is a separate skill (issue-creator), uses same GITCODE_TOKEN
