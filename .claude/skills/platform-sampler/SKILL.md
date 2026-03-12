@@ -10,7 +10,7 @@ Collect raw AI platform responses for each question in the question set, across 
 ## Prerequisites
 
 - `.env` file with API tokens (at least 2 platforms required)
-- `questions.json` in the project root (output from keyword-generator skill)
+- `questions.json` in the project root (output from get-question skill)
 
 ## Procedures
 
@@ -101,6 +101,6 @@ For each question in `questions.json`, for each available platform:
 
 * If a platform API call fails (timeout, auth error, rate limit), log the error to stderr, mark the response as `"status": "error"` with the error message, and continue with the next call. Do not abort the entire sampling run.
 * If a platform returns an empty response, mark it as `"status": "empty"` and continue.
-* If `questions.json` is missing, abort with a clear error: "questions.json not found. Run keyword-generator skill first."
+* If `questions.json` is missing, abort with a clear error: "questions.json not found. Run get-question skill first."
 * If rate-limited by a platform (HTTP 429), wait 30 seconds and retry once. If still rate-limited, mark as error and continue.
 * After all sampling, if more than 50% of responses are errors, warn the user and suggest checking API tokens.
