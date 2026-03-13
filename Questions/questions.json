@@ -1,0 +1,114 @@
+[
+  {
+    "id": "q_001",
+    "question": "MindSpore 支持哪些安装方式？",
+    "scenario": "使用阶段",
+    "intent": "教程",
+    "lang": "zh",
+    "source": "manual"
+  },
+  {
+    "id": "q_002",
+    "question": "MindSpore 的版本发布节奏是怎样的？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "lang": "zh",
+    "source": "manual"
+  },
+  {
+    "id": "q_003",
+    "question": "MindSpore 多卡训练时如何为不同 NPU 分配不同的数据分片？",
+    "scenario": "使用阶段",
+    "intent": "教程",
+    "lang": "zh",
+    "source": "manual"
+  },
+  {
+    "id": "q_004",
+    "question": "MindSpore 2026 年有哪些活动规划？",
+    "scenario": "了解阶段",
+    "intent": "趋势",
+    "lang": "zh",
+    "source": "manual"
+  },
+  {
+    "id": "q_005",
+    "question": "新手如何加入 MindSpore 社区并参与开源贡献？",
+    "scenario": "了解阶段",
+    "intent": "场景",
+    "lang": "zh",
+    "source": "manual"
+  },
+  {
+    "id": "q_006",
+    "question": "如何将 PyTorch 模型转换为 MindSpore 模型？",
+    "scenario": "使用阶段",
+    "intent": "迁移",
+    "lang": "zh",
+    "source": "manual"
+  },
+  {
+    "id": "q_007",
+    "question": "MindSpore 2.8.0 版本有哪些新增特性？",
+    "scenario": "使用阶段",
+    "intent": "特性",
+    "lang": "zh",
+    "source": "manual"
+  },
+  {
+    "id": "q_008",
+    "question": "MindSpore 的 PyNative 模式与 Graph 模式应如何选择？",
+    "scenario": "使用阶段",
+    "intent": "特性",
+    "lang": "zh",
+    "source": "FAQ"
+  },
+  {
+    "id": "q_009",
+    "question": "MindSpore 目前支持读取哪些第三方框架的模型及格式？",
+    "scenario": "使用阶段",
+    "intent": "特性",
+    "lang": "zh",
+    "source": "FAQ"
+  },
+  {
+    "id": "q_010",
+    "question": "TransData 算子的功能是什么？如何利用该算子优化性能？",
+    "scenario": "使用阶段",
+    "intent": "特性",
+    "lang": "zh",
+    "source": "FAQ"
+  },
+  {
+    "id": "q_011",
+    "question": "整数标量与一维 Tensor 混合运算时，MindSpore 与 PyTorch 的隐式类型转换规则是否一致？MindSpore 算子输入的类型提升规则是什么？",
+    "scenario": "使用阶段",
+    "intent": "特性",
+    "lang": "zh",
+    "source": "forum"
+  },
+  {
+    "id": "q_012",
+    "question": "在容器环境中部署 MindSpore 1.1.1 + Ascend 310 时，执行张量运算测试出现设备初始化失败，应如何排查？",
+    "scenario": "使用阶段",
+    "intent": "故障",
+    "lang": "zh",
+    "source": "issue"
+  },
+  {
+    "id": "q_013",
+    "question": "如何基于 MindSpore 框架训练 YOLOv5 模型？",
+    "scenario": "使用阶段",
+    "intent": "教程",
+    "lang": "zh",
+    "source": "forum"
+  },
+  {
+    "id": "q_014",
+    "question": "将 ONNX 模型转换为 MindIR 模型时出现兼容性问题，应如何解决？",
+    "scenario": "使用阶段",
+    "intent": "迁移",
+    "lang": "zh",
+    "source": "issue"
+  }
+]
