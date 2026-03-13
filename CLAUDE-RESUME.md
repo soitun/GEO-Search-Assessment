@@ -118,11 +118,14 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 
 ## Current Status
 
-- **Phase**: All 4 pipeline skills created. Scoring-engine analysis completed for Q1,Q4,Q5,Q7,Q9,Q10.
+- **Phase**: All 4 pipeline skills created. Scoring-engine analysis completed for Q1,Q4,Q5,Q7,Q9,Q10. GEO improvement reports created for all Q1-Q10.
 - **Scoring results**: `scoring-results.json` (28 scored pairs) + `suggestions.md` (7-section report)
 - **Key findings**: 5 P0 issues (all Type C citation errors), concentrated in 豆包 (3) and DeepSeek (2). Perplexity and 千问 perform best. Q1 (install) is benchmark case — 0% hallucination. Q9 (model format) has highest divergence across platforms.
+- **Q1-Q3 analysis**: Q1 (install) best-answered across all platforms (proves good docs→good AI answers). Q2: no official version strategy doc → platforms guess wildly. Q3: all correct (num_shards/shard_id).
+- **Q4-Q7 analysis**: SPA pages (activities/contribution) are root GEO blocker. Q6: 3/5 platforms fabricate non-existent APIs. Q7: 豆包 fabricates extensive fake features. 千问 and Perplexity perform best.
+- **Q8-Q10 analysis**: Q9 is the worst — 3/4 platforms incorrectly claim MindSpore can "directly read" PyTorch/TF models. Q10: 豆包 completely off-topic (answered as big data ETL), DeepSeek returned irrelevant content. 千问 is the best performer across all 3 questions.
 - **Branch**: `main`
-- **Last updated**: 2026-03-12
+- **Last updated**: 2026-03-13
 
 ## TODO
 
@@ -173,6 +176,9 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 | 2026-03-12 | Issue auto-creation = separate skill (issue-creator), not inside scoring-engine |
 | 2026-03-12 | Pipeline expanded to 4 steps: get-question → platform-sampler → scoring-engine → issue-creator |
 | 2026-03-12 | Ran scoring-engine on Q1,Q4,Q5,Q7,Q9,Q10 (28 pairs). Output: scoring-results.json + suggestions.md |
+| 2026-03-13 | Created GEO-Improvement-Report-Q8-Q10.md: analyzed Q8-Q10 against official FAQ sources, identified P0 issues |
+| 2026-03-13 | Created GEO-Improvement-Report-Q4-Q7.md: analyzed Q4-Q7 (activities, contribution, PyTorch migration, v2.8.0 features) |
+| 2026-03-13 | Created GEO-Improvement-Report-Q1-Q3.md: analyzed Q1-Q3 (install, version cadence, data sharding), completed full Q1-Q10 analysis |
 
 ## Key Decisions
 
