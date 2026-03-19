@@ -8,16 +8,18 @@ GEO（Generative Engine Optimization）搜索能力诊断系统 —— 自动评
 
 本系统是一个由 Claude Code 驱动的 **Skill 链式流水线**，纯 CLI 运行，无 Web 界面。
 
-4 步流水线，每步对应一个独立 Skill：
+3 步流水线 + Issue 创建，每步对应一个独立 Skill：
 
 ```
-questions.json        responses.json     scoring-results.json    suggestions.md / issues.md
-     │                     │                     │                        │
-     ▼                     ▼                     ▼                        ▼
-┌──────────────┐  ┌──────────────────┐  ┌──────────────┐  ┌─────────────────────────┐
-│ get-question │─▶│ platform-sampler │─▶│scoring-engine│─▶│   improvement-advisor   │
-└──────────────┘  └──────────────────┘  └──────────────┘  └─────────────────────────┘
-   生成问题集          采样 AI 平台           评分诊断          生成改进建议 & Issue清单
+questions.json        responses.json     scoring-results.json + suggestions.md
+     │                     │                     │
+     ▼                     ▼                     ▼
+┌──────────────┐  ┌──────────────────┐  ┌──────────────────────────────────────┐
+│ get-question │─▶│ platform-sampler │─▶│            scoring-engine            │
+└──────────────┘  └──────────────────┘  │  评分诊断 + 事实覆盖 + 模式分析     │
+                                        │  + 目录匹配建议（72 条 GEO 建议库） │
+                                        └──────────────────────────────────────┘
+   生成问题集          采样 AI 平台         评分 → 诊断 → 建议 → 路线图
 ```
 
 **数据流**：Skill 之间通过 JSON 文件传递数据，同时输出 Markdown 供人工审阅。
