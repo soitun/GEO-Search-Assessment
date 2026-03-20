@@ -45,9 +45,7 @@ get-question → platform-sampler → scoring-engine
 
 从 MindSpore 的 SIG（特别兴趣小组）邮件列表中提取讨论话题。这些是核心开发者关心的问题，代表了深度用户的视角。
 
-**Path 4：行业问题（industry）**
-
-用 LLM 从行业角度生成问题。比如"MindSpore 和 PyTorch 相比有什么优势？""MindSpore 适合什么场景？"——这些是**了解阶段**的用户会问的。
+**Path 4：官网埋点**
 
 ### 手写问题
 
