@@ -16,18 +16,18 @@ GEO (Generative Engine Optimization) Search Assessment — a system that automat
 
 The system is a **skill chain orchestrated by AGENT.md**, not a web application. Pure CLI-driven via Claude Code.
 
-4-step pipeline (execution steps), each step is a separate skill:
+3-step pipeline + issue creation, each step is a separate skill:
 
 1. **get-question** — Generate question set from manual input + 3 auto paths (forum, issue, industry)
 2. **platform-sampler** — Call 4 AI platform APIs with questions, collect responses
-3. **scoring-engine** — Two-layer evaluation (content completeness + citation accuracy), generate P0-P2 improvement suggestions
+3. **scoring-engine** — Multi-layer evaluation (content completeness + citation accuracy + optional fact coverage), cross-platform pattern analysis, catalog-based suggestion matching (72-item GEO catalog), generate P0-P2 improvement suggestions with execution roadmap
 4. **issue-creator** — Auto-create GitCode Issues from improvement suggestions
 
 Data flows as JSON between skills, with Markdown output for human review.
 
 ## Step 1 Design (get-question) — AGREED
 
-Question sources: manual input + 4 selectable auto-generation paths (`paths` param: `forum`, `issue`, `industry`, `ai_reverse`, `all`)
+Question sources: manual input + 4 selectable auto-generation paths (`paths` param: `forum`, `issue`, `maillist`, `industry`, `all`)
 
 - **Manual input**: Community operators write questions in `manual-questions.md` (Markdown), skill auto-parses to structured JSON. No YAML needed.
 - **Path 1 (PRIMARY): Forum usage question extraction (使用阶段)** — Fetch top topics from MindSpore Discourse forum (`https://discuss.mindspore.cn`) via API. Fetches from 问题求助 Help + MindSpore Lite categories + global top. LLM rewrites titles to search questions, filters pure bugs. Forum + issues are the primary question source.
@@ -84,15 +84,15 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 | platform-sampler | `.claude/skills/platform-sampler/` | ✅ Complete |
 | scoring-engine | `.claude/skills/scoring-engine/` | ✅ Complete |
 | issue-creator | `.claude/skills/issue-creator/` | ✅ Complete |
-| improvement-advisor | `.claude/skills/improvement-advisor/` | ✅ Complete |
+| ~~improvement-advisor~~ | merged into scoring-engine (2026-03-19) | ❌ Deleted |
 
 ### get-question
-- 8-step procedure: Load config → Parse manual → Path 1 (forum) → Path 2 (issue) → Path 3 (industry LLM) → Merge & dedup → Output → Human review
-- Path 4 (AI reverse extraction) removed — data must come from real sources, not AI self-report
+- 9-step procedure: Load config → Parse manual → Path 1 (forum) → Path 2 (issue) → Path 3 (maillist/SIG) → Path 4 (industry LLM) → Merge & dedup → Output → Human review
+- Maillist path: two-step flow — (1) MagicAPI fetches SIG list → extracts mailing_list addresses, (2) HyperKitty API fetches email archives from mailweb.mindspore.cn → thread subjects + email content. Active lists: dev(71), tsc(53), discuss(49), infra(8).
 - Forum: all content types included (technical, events, blogs, announcements) — views are relevance filter, not content type
 - Forum endpoint: `/c/{slug}/{id}/l/top.json?period=all` (views-sorted, not latest activity)
-- Scripts: `parse-manual-questions.py`, `fetch-forum-posts.py`, `fetch-repo-issues.py`, `validate-questions.py`
-- References: `forum-api-spec.md`, `gitcode-api-spec.md`
+- Scripts: `parse-manual-questions.py`, `fetch-forum-posts.py`, `fetch-repo-issues.py`, `fetch-sig-info.py`, `validate-questions.py`
+- References: `forum-api-spec.md`, `gitcode-api-spec.md`, `sig-api-spec.md`
 - Assets: `questions-template.md`
 
 ### platform-sampler
@@ -103,12 +103,15 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 - Post-processing extracts: mentions_community, community_description, competitors_mentioned, recommendation_position, citations_to_official
 
 ### scoring-engine
-- 6-step procedure: Validate inputs → Layer 1 (content completeness) → Layer 2 (citation accuracy, LLM) → Assign severity & suggestions → Compile output → Human spot-check
-- Scripts: `validate-inputs.py`, `parse-llm-score.py`, `select-spot-check.py`
-- References: `scoring-prompt-template.md`, `suggestion-rules.md`
+- 8-step procedure: Validate inputs → Layer 1 (content completeness) → Layer 2 (citation accuracy + 26 issue tags) → Layer 2+ (optional fact coverage with standard answers) → Cross-platform pattern analysis → Assign severity & match from catalog → Compile output → Human spot-check
+- Scripts: `validate-inputs.py`, `parse-llm-score.py`, `select-spot-check.py`, `compile-report.py`
+- References: `scoring-prompt-template.md`, `suggestion-rules.md`, `geo-suggestions-catalog.md`
 - Assets: `suggestions-template.md`
-- Two-layer model: Layer 1 = human-labeled `content_exists`, Layer 2 = LLM evaluates phenomena B/C/D/E
-- Outputs: `scoring-results.json`, `suggestions.md`
+- Multi-layer model: Layer 1 = human-labeled, Layer 2 = LLM citation + issue tags, Layer 2+ = optional fact coverage (when standard-answers.json exists)
+- 72-item GEO suggestion catalog mapped to 5 phenomena (A-E), matched via 26 issue tags
+- Cross-platform pattern analysis identifies content-origin issues (≥3 platforms) vs platform-specific issues
+- Absorbed improvement-advisor capabilities: fact coverage analysis, cross-platform patterns, universal recommendations
+- Outputs: `scoring-results.json`, `suggestions.md` (with execution roadmap + KPI tracking)
 
 ### issue-creator
 - 5-step procedure: Load config → Parse scoring results → Deduplicate & group → Generate Issue payloads → Output summary
@@ -119,14 +122,14 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 
 ## Current Status
 
-- **Phase**: All 4 pipeline skills created. Scoring-engine analysis completed for Q1,Q4,Q5,Q7,Q9,Q10. GEO improvement reports created for all Q1-Q10.
+- **Phase**: All 4 pipeline skills created. get-question expanded to 4 paths (forum/issue/maillist/industry). Scoring-engine analysis completed for Q1,Q4,Q5,Q7,Q9,Q10. GEO improvement reports created for all Q1-Q10.
 - **Scoring results**: `scoring-results.json` (28 scored pairs) + `suggestions.md` (7-section report)
 - **Key findings**: 5 P0 issues (all Type C citation errors), concentrated in 豆包 (3) and DeepSeek (2). Perplexity and 千问 perform best. Q1 (install) is benchmark case — 0% hallucination. Q9 (model format) has highest divergence across platforms.
 - **Q1-Q3 analysis**: Q1 (install) best-answered across all platforms (proves good docs→good AI answers). Q2: no official version strategy doc → platforms guess wildly. Q3: all correct (num_shards/shard_id).
 - **Q4-Q7 analysis**: SPA pages (activities/contribution) are root GEO blocker. Q6: 3/5 platforms fabricate non-existent APIs. Q7: 豆包 fabricates extensive fake features. 千问 and Perplexity perform best.
 - **Q8-Q10 analysis**: Q9 is the worst — 3/4 platforms incorrectly claim MindSpore can "directly read" PyTorch/TF models. Q10: 豆包 completely off-topic (answered as big data ETL), DeepSeek returned irrelevant content. 千问 is the best performer across all 3 questions.
 - **Branch**: `main`
-- **Last updated**: 2026-03-13
+- **Last updated**: 2026-03-17
 
 ## TODO
 
@@ -134,7 +137,7 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 - [x] Create platform-sampler skill using `/skill-creator`
 - [x] Create scoring-engine skill (design agreed, needs `/skill-creator`)
 - [x] Create issue-creator skill
-- [x] Create improvement-advisor skill
+- [x] ~~Create improvement-advisor skill~~ (merged into scoring-engine 2026-03-19)
 - [ ] Create AGENT.md to orchestrate the full workflow
 - [ ] Design feedback-rules.md format and integration
 - [ ] Discuss 第一部分 (主流 AI 搜索平台分析) with user
@@ -185,6 +188,10 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 | 2026-03-13 | Created GEO-Improvement-Report-Q8-Q10.md: analyzed Q8-Q10 against official FAQ sources, identified P0 issues |
 | 2026-03-13 | Created GEO-Improvement-Report-Q4-Q7.md: analyzed Q4-Q7 (activities, contribution, PyTorch migration, v2.8.0 features) |
 | 2026-03-13 | Created GEO-Improvement-Report-Q1-Q3.md: analyzed Q1-Q3 (install, version cadence, data sharding), completed full Q1-Q10 analysis |
+| 2026-03-17 | Added maillist path (Path 3) to get-question: fetches SIG data from mindspore.cn/sig via official APIs |
+| 2026-03-17 | Created fetch-sig-info.py: Step 1 MagicAPI→SIG mailing lists, Step 2 HyperKitty API→email archives |
+| 2026-03-17 | Discovered mindspore.cn/sig data sources: MagicAPI, Meeting API, HyperKitty (Mailman 3), Etherpad, OBS |
+| 2026-03-17 | get-question now 9 steps (was 8), 4 paths: forum, issue, maillist, industry |
 
 ## Key Decisions
 
@@ -198,7 +205,7 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 - MVP platforms (4): ChatGPT + DeepSeek + 豆包 + Qwen（Perplexity 已移除）
 - API tokens stored in `.env`, template in `.env.example`
 - Two scenarios in parallel: 了解阶段 (industry discovery) + 使用阶段 (usage extraction)
-- Forum (Discourse API) is primary question source; all 3 paths selectable via `paths` param (forum, issue, industry)
+- Forum (Discourse API) is primary question source; all 4 paths selectable via `paths` param (forum, issue, maillist, industry)
 - Path 4 (AI reverse extraction) permanently removed — circular reasoning risk; real data only
 - Forum includes all content types (not filtered by category type); views = relevance signal
 - Forum URL: https://discuss.mindspore.cn/ (Discourse, public API, no auth needed)

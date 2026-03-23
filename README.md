@@ -27,19 +27,6 @@ questions.json        responses.json     scoring-results.json + suggestions.md
 **评估平台（MVP）**：ChatGPT · 豆包（火山引擎）· 千问（阿里云百炼）· DeepSeek
 
 
-## 项目文件
-
-| 文件/目录 | 用途 |
-|----------|------|
-| `GEO搜索能力诊断-初步设计方案.md` | 完整设计文档 |
-| `INPUT.md` | 原始需求文档 |
-| `.env.example` | API Token 配置模板（6 个平台） |
-| `CLAUDE.md` | Claude Code 开发规则 |
-| `CLAUDE-RESUME.md` | 会话恢复文件，记录项目状态和待办 |
-| `CHANGELOG.md` | 变更日志，由 `/release-skills` 自动维护 |
-| `Answers/` | AI 平台原始回答（Q1–Q10） |
-| `Scoring/` | GEO 综合评分报告（含平台对比、改进建议） |
-
 ## 使用 Claude Code 开发
 
 本仓库使用 [Claude Code](https://claude.ai/code) 作为主要开发工具，配置了自动化工作流和会话恢复机制。
