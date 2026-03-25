@@ -6,7 +6,7 @@
     "intent": "故障",
     "category": "installation",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 168,
     "source_title": "ubuntu 22.04 arm 架构，安装昇思报 opp_kernel 没安装"
@@ -18,7 +18,7 @@
     "intent": "故障",
     "category": "installation",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 133,
     "source_title": "MindSpore NLP安装不上"
@@ -30,7 +30,7 @@
     "intent": "故障",
     "category": "installation",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 94,
     "source_title": "参考mindspore文档无法安装2.6.0GPU昇思框架"
@@ -42,7 +42,7 @@
     "intent": "故障",
     "category": "troubleshooting",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 91,
     "source_title": "模型推理报错"
@@ -54,7 +54,7 @@
     "intent": "故障",
     "category": "troubleshooting",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 77,
     "source_title": "310b上运行LibriSpeech，mindnlp自动下载模型出错"
@@ -76,7 +76,7 @@
     "intent": "教程",
     "category": "deployment",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 151,
     "source_title": "vLLM框架部署MindSpore模型的推理服务流式异步返回"
@@ -88,7 +88,7 @@
     "intent": "教程",
     "category": "deployment",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 135,
     "source_title": "昇思如何打包成镜像"
@@ -100,7 +100,7 @@
     "intent": "教程",
     "category": "installation",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 45,
     "source_title": "端侧模型转换 windows 配环境报错"
@@ -142,7 +142,7 @@
     "intent": "迁移",
     "category": "migration",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 70,
     "source_title": "torch.nn.Conv2d和ms.nn.Conv2d精度对齐问题"
@@ -154,7 +154,7 @@
     "intent": "迁移",
     "category": "migration",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 65,
     "source_title": "onnx模型转换成mindir模型出现兼容问题"
@@ -176,7 +176,7 @@
     "intent": "特性",
     "category": "feature",
     "lang": "zh",
-    "source": "path1-forum",
+    "source": "forum",
     "priority": 1,
     "source_views": 69,
     "source_title": "mindspore框架支持在数据下沉时训练动态的切换数据集吗"
@@ -238,7 +238,7 @@
     "intent": "认知",
     "category": "awareness",
     "lang": "zh",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -248,7 +248,7 @@
     "intent": "认知",
     "category": "awareness",
     "lang": "en",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -258,7 +258,7 @@
     "intent": "认知",
     "category": "awareness",
     "lang": "zh",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -268,7 +268,7 @@
     "intent": "认知",
     "category": "awareness",
     "lang": "zh",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -278,7 +278,7 @@
     "intent": "认知",
     "category": "awareness",
     "lang": "en",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -298,7 +298,7 @@
     "intent": "选型",
     "category": "selection",
     "lang": "zh",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -308,7 +308,7 @@
     "intent": "选型",
     "category": "selection",
     "lang": "en",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -318,7 +318,7 @@
     "intent": "选型",
     "category": "selection",
     "lang": "zh",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -328,7 +328,7 @@
     "intent": "趋势",
     "category": "trend",
     "lang": "zh",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -348,7 +348,7 @@
     "intent": "场景",
     "category": "scenario",
     "lang": "zh",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -358,7 +358,7 @@
     "intent": "场景",
     "category": "scenario",
     "lang": "zh",
-    "source": "path3-industry",
+    "source": "industry",
     "priority": 2
   },
   {
@@ -370,5 +370,365 @@
     "lang": "zh",
     "source": "manual",
     "priority": 1
+  },
+  {
+    "id": "q_036",
+    "question": "MindSpore Transformers SIG 周例会的会议安排是怎样的？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "meeting",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "dev@mindspore.cn",
+    "source_title": "[Dev] MindSpore Transformers SIG周例会"
+  },
+  {
+    "id": "q_037",
+    "question": "How do I join the MindSpore Transformers SIG weekly meeting?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "meeting",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "dev@mindspore.cn",
+    "source_title": "[Dev] MindSpore Transformers SIG周例会"
+  },
+  {
+    "id": "q_038",
+    "question": "MindSpore 的 LLM Inference Serving SIG 是做什么的，多久开一次例会？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "discussion",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "dev@mindspore.cn",
+    "source_title": "[Dev] LLM Inference Serving SIG双周例会"
+  },
+  {
+    "id": "q_039",
+    "question": "What is MindSpore's LLM Inference Serving SIG and how can I participate?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "discussion",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "dev@mindspore.cn",
+    "source_title": "[Dev] LLM Inference Serving SIG双周例会"
+  },
+  {
+    "id": "q_040",
+    "question": "MindSpore Parallel Training System SIG 的工作范围是什么？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "technical",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "dev@mindspore.cn",
+    "source_title": "[Dev] Parallel Training System SIG月例会"
+  },
+  {
+    "id": "q_041",
+    "question": "MindSpore MindQuantum SIG 的职责和活动是什么？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "discussion",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "dev@mindspore.cn",
+    "source_title": "[Dev] MindQuantum SIG 月例会"
+  },
+  {
+    "id": "q_042",
+    "question": "What is the MindSpore Heterogeneous Fusion SIG responsible for?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "technical",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "dev@mindspore.cn",
+    "source_title": "[Dev] Heterogeneous Fusion月例会"
+  },
+  {
+    "id": "q_043",
+    "question": "如何向 MindSpore TSC 申请成立新的 SIG？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "governance",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] Apply for adding usability sig"
+  },
+  {
+    "id": "q_044",
+    "question": "How do I apply to create a new SIG in MindSpore?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "governance",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] Apply for adding usability sig"
+  },
+  {
+    "id": "q_045",
+    "question": "MindSpore TSC 是什么，它的职责和会议频率是怎样的？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "governance",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] TSC Monthly Meeting Agenda March 17 2022"
+  },
+  {
+    "id": "q_046",
+    "question": "What is the MindSpore TSC (Technical Steering Committee) and how does it govern the project?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "governance",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] TSC Monthly Meeting 2022-04-21"
+  },
+  {
+    "id": "q_047",
+    "question": "MindSpore 有哪些 SIG（Special Interest Groups）？各个 SIG 负责什么方向？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "governance",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] Apply for adding usability sig"
+  },
+  {
+    "id": "q_048",
+    "question": "MindSpore 是否参加过 KubeCon 等国际开源峰会？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "announcement",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] KubeCon EU at Valencia Spain featuring MindSpore in Keynote speech"
+  },
+  {
+    "id": "q_049",
+    "question": "Has MindSpore been featured at major open source conferences like KubeCon?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "announcement",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] KubeCon EU at Valencia Spain featuring MindSpore in Keynote speech"
+  },
+  {
+    "id": "q_050",
+    "question": "MindSpore 的 DX-SIG（Developer Experience SIG）是做什么的？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "discussion",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[DX-SIG]MindSpore DX-SIG meeting 2021 Aug 10"
+  },
+  {
+    "id": "q_051",
+    "question": "What is the MindSpore DX-SIG (Developer Experience Special Interest Group)?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "discussion",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[DX-SIG]MindSpore DX-SIG meeting 2021 Aug 10"
+  },
+  {
+    "id": "q_052",
+    "question": "如何向 MindSpore 邮件列表发送邮件或订阅邮件列表？",
+    "scenario": "使用阶段",
+    "intent": "教程",
+    "category": "subscription",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[Infra] 邮件列表服务升级通知"
+  },
+  {
+    "id": "q_053",
+    "question": "How do I subscribe to MindSpore mailing lists?",
+    "scenario": "使用阶段",
+    "intent": "教程",
+    "category": "subscription",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[Infra] 邮件列表服务升级通知"
+  },
+  {
+    "id": "q_054",
+    "question": "MindSpore 的邮件列表系统使用什么平台？如何查看历史邮件存档？",
+    "scenario": "使用阶段",
+    "intent": "教程",
+    "category": "subscription",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[Infra] 邮件列表服务升级通知"
+  },
+  {
+    "id": "q_055",
+    "question": "MindSpore 有哪些邮件列表，它们分别面向什么受众？",
+    "scenario": "使用阶段",
+    "intent": "教程",
+    "category": "subscription",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[Infra] 邮件列表服务升级通知"
+  },
+  {
+    "id": "q_056",
+    "question": "What mailing lists does MindSpore have and how are they organized?",
+    "scenario": "使用阶段",
+    "intent": "教程",
+    "category": "subscription",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[Infra] 邮件列表服务升级通知"
+  },
+  {
+    "id": "q_057",
+    "question": "MindSpore 的 DataCompliance SIG 是做什么的？数据合规相关工作如何参与？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "discussion",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[DataCompliance SIG]MindSpore Data Compliance SIG meeting 2021 Nov 17"
+  },
+  {
+    "id": "q_058",
+    "question": "How can I become a maintainer in MindSpore? What is the process for proposing new maintainers?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "governance",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "Propose to add Jie Zhao as new maintainer"
+  },
+  {
+    "id": "q_059",
+    "question": "MindSpore 如何通过自动化工具管理社区例会通知？社区采用什么会议平台？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "discussion",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "关于下线meetingbot服务的告知"
+  },
+  {
+    "id": "q_060",
+    "question": "MindSpore 的 GraphEngine SIG 和 Compiler SIG 负责哪些技术模块？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "technical",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[sig-graphengine]graphengine sig meeting July 31/2020 agenda"
+  },
+  {
+    "id": "q_061",
+    "question": "What are the responsibilities of MindSpore's Compiler SIG and GraphEngine SIG?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "technical",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[sig-compiler]compiler sig meeting June 5th/2020 agenda"
+  },
+  {
+    "id": "q_062",
+    "question": "MindSpore 的 Dataset SIG 负责哪些工作？数据集相关功能如何参与贡献？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "technical",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[sig-data]Data SIG Meeting April 14th Agenda"
+  },
+  {
+    "id": "q_063",
+    "question": "MindSpore 的安全 SIG（Security SIG）如何处理漏洞报告和安全问题？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "technical",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-discuss@mindspore.cn",
+    "source_title": "[sig-security] Security SIG Meeting June 4th Agenda"
+  },
+  {
+    "id": "q_064",
+    "question": "MindSpore 的 TSC 会议是否对外公开？社区成员如何参与治理讨论？",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "governance",
+    "lang": "zh",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] TSC Monthly Meeting 2022-04-21"
+  },
+  {
+    "id": "q_065",
+    "question": "How does MindSpore handle community governance — who makes decisions and how are they communicated?",
+    "scenario": "了解阶段",
+    "intent": "认知",
+    "category": "governance",
+    "lang": "en",
+    "source": "maillist",
+    "priority": 3,
+    "source_list": "mindspore-tsc@mindspore.cn",
+    "source_title": "[MindSpore-tsc] TSC Monthly Meeting Agenda March 17 2022"
   }
 ]
