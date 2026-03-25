@@ -186,7 +186,7 @@ def main():
         available_addrs = {ml.get("name", "") for ml in all_lists}
         # Merge SIG lists + all available lists (some lists aren't SIG-specific)
         target_lists = sorted(
-            sig_data["mailing_lists"] | available_addrs - {""}
+            set(sig_data["mailing_lists"]) | available_addrs - {""}
         )
 
     print(f"  Target lists: {target_lists}", file=sys.stderr)

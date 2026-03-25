@@ -5,9 +5,8 @@ Usage: cat questions.json | python3 validate-questions.py
 
 Validates:
 - JSON structure is a valid array
-- Each item has required fields: id, question, intent, lang, source
+- Each item has required fields: id, question, intent, source
 - intent is one of: 认知, 选型, 趋势, 场景, 教程, 故障, 特性, 迁移
-- lang is one of: zh, en
 - id follows pattern q_NNN
 - No duplicate ids
 - Total count is within 30-40 range (warning if outside)
@@ -19,8 +18,7 @@ import json
 import re
 import sys
 
-REQUIRED_FIELDS = {"id", "question", "intent", "lang", "source"}
-VALID_LANGS = {"zh", "en"}
+REQUIRED_FIELDS = {"id", "question", "intent", "source"}
 VALID_INTENTS = {"认知", "选型", "趋势", "场景", "教程", "故障", "特性", "迁移"}
 
 
@@ -51,10 +49,6 @@ def validate(data: list) -> list[str]:
         if qid in seen_ids:
             errors.append(f"{prefix}: Duplicate id '{qid}'.")
         seen_ids.add(qid)
-
-        # Validate lang
-        if item["lang"] not in VALID_LANGS:
-            errors.append(f"{prefix}: Invalid lang '{item['lang']}'. Must be one of {VALID_LANGS}.")
 
         # Validate intent
         if item["intent"] not in VALID_INTENTS:

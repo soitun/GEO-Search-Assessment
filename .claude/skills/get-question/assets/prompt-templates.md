@@ -13,7 +13,7 @@ Rules:
 
 {data_json}
 
-Output JSON array: [{question, category, lang{output_extra_fields}}]
+Output JSON array: [{question, category{output_extra_fields}}]
 ```
 
 ### Forum variant (Step 3)
@@ -36,8 +36,8 @@ Used when `fetch-forum-posts.py` fails (Step 3 fallback).
 
 ```
 Generate 10-15 typical usage questions for {community} ({seed_keywords}) that developers post on forums.
-Cover: installation, configuration, training, deployment, migration, troubleshooting. Both zh and en.
-Output JSON array: [{question, category, lang}]
+Cover: installation, configuration, training, deployment, migration, troubleshooting.
+Output JSON array: [{question, category}]
 ```
 
 ---
@@ -56,11 +56,10 @@ For open-source project "{community}" (keywords: {seed_keywords}):
    - "What are trends in X?"
    - "What X fits Y scenario?"
    - "Alternatives to {competitor}?"
-   Both zh and en.
 
 Output JSON: {
   "domain": {industry, sub_domain, positioning, competitors},
-  "questions": [{question, intent, lang}]
+  "questions": [{question, intent}]
 }
 ```
 
@@ -86,12 +85,11 @@ Rules:
 - Also generate questions about the mailing list system itself — how to subscribe, what lists exist, how SIG communication works
 - Categories: meeting|discussion|announcement|governance|technical|subscription
 - Skip automated/bot emails that have no substantive content
-- Generate both zh and en questions
 - At least one question per active mailing list
 
 {data_json}
 
-Output JSON array: [{question, category, lang, source_list, source_subject}]
+Output JSON array: [{question, category, source_list, source_subject}]
 ```
 
 ---
@@ -105,8 +103,7 @@ Generate 8-12 questions about {community} mailing lists and SIG communication th
 Cover: how to subscribe to mailing lists, what mailing lists exist, SIG meeting schedules, how community communication works, how to join discussions.
 Entry point: https://www.mindspore.cn/sig
 Mailing list system: https://mailweb.mindspore.cn
-Both zh and en.
-Output JSON array: [{question, category, lang}]
+Output JSON array: [{question, category}]
 ```
 
 ---
@@ -122,9 +119,9 @@ Rules:
 - Priority order: manual > forum / issue > maillist > industry.
 - Keep all manual questions unchanged.
 - Target 30-40 total. If over 40, drop lowest-priority duplicates.
-- Assign each question: intent (认知|选型|趋势|场景|教程|故障|特性|迁移), lang (zh|en).
+- Assign each question: intent (认知|选型|趋势|场景|教程|故障|特性|迁移).
 
 {all_questions_json}
 
-Output JSON array: [{id:"q_001"..., question, intent, lang, source, priority}]
+Output JSON array: [{id:"q_001"..., question, intent, source, priority}]
 ```

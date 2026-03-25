@@ -1,6 +1,6 @@
 ---
 name: get-question
-description: Generates a structured question set for GEO search assessment. Supports 4 source paths (forum, issue, maillist, industry) — select individually or all. Reads manual questions from Markdown, fetches real data from forum/issues/SIG community info, generates industry questions via LLM, merges and deduplicates, then outputs questions.json and questions.md. Use when starting a new GEO assessment or refreshing the question set. Do not use for platform sampling, scoring, or improvement suggestions.
+description: Generates a structured question set for GEO search assessment. Supports 5 source paths (forum, issue, maillist, website, industry) — select individually or all. Reads manual questions from Markdown, fetches real data from forum/issues/SIG mailing lists/website search logs, generates industry questions via LLM, merges and deduplicates, then outputs questions.json and questions.md. Use when starting a new GEO assessment or refreshing the question set. Do not use for platform sampling, scoring, or improvement suggestions.
 ---
 
 # Get Question
@@ -11,7 +11,7 @@ description: Generates a structured question set for GEO search assessment. Supp
 |---|---|---|---|
 | `community` | yes | — | e.g. "MindSpore" |
 | `seed_keywords` | no | LLM-derived | comma-separated |
-| `paths` | no | `all` | `forum` / `issue` / `maillist` / `industry` / `all` |
+| `paths` | no | `all` | `forum` / `issue` / `maillist` / `website` / `industry` / `all` |
 | `sig_url` | no | `https://www.mindspore.cn/sig` | Entry point for SIG data (maillist path) |
 | `forum_url` | no | — | Discourse forum base URL (e.g. `https://discuss.mindspore.cn`) |
 | `repo_owner` | no | — | GitCode repo owner/org for issue path |
@@ -48,7 +48,7 @@ Skip if `paths` excludes `forum`.
 
 ---
 
-## Step 4 — Path 2: Issues [PRIMARY]
+## Step 4 — Path 2: Issues
 
 Skip if `paths` excludes `issue`.
 
@@ -74,18 +74,33 @@ Two-step data flow:
 
 ---
 
-## Step 6 — Path 4: Industry
+## Step 6 — Path 4: Website Search Keywords
+
+Skip if `paths` excludes `website`.
+
+1. Check: if `WEBSITE_SEARCH_URL` not set → log `SKIP: WEBSITE_SEARCH_URL not configured`, set `path4_questions=[]`, go to Step 7.
+2. Fetch: `curl -s [-H "Authorization: Bearer {WEBSITE_SEARCH_TOKEN}"] "{WEBSITE_SEARCH_URL}"` → capture JSON response.
+   - **HTTP ≠ 200** → log `SKIP: website search API returned HTTP {status}`, set `path4_questions=[]`, go to Step 7.
+3. Extract keyword list from response (field name varies by API; try `data`, `keywords`, `hot_words`, `result`).
+4. Read `$SD/assets/prompt-templates.md` section `WEBSITE_KEYWORDS_REWRITE`, send LLM call with raw keyword list.
+   - LLM filters navigation terms (首页/登录/官网/下载) and pure brand terms.
+   - LLM rewrites remaining keywords into full natural language search questions.
+   - Capture → `path4_questions`.
+
+---
+
+## Step 7 — Path 5: Industry
 
 Skip if `paths` excludes `industry`.
 
 1. Read `$SD/assets/prompt-templates.md` section `INDUSTRY_DISCOVERY`, send LLM call.
-2. Extract `questions` array → `path4_questions`.
+2. Extract `questions` array → `path5_questions`.
 
 ---
 
-## Step 7 — Merge & Deduplicate
+## Step 8 — Merge & Deduplicate
 
-1. Combine: `all_questions = manual_questions + path1_questions + path2_questions + path3_questions + path4_questions`.
+1. Combine: `all_questions = manual_questions + path1_questions + path2_questions + path3_questions + path4_questions + path5_questions`.
 2. Read `$SD/assets/prompt-templates.md` section `MERGE_DEDUP`, send LLM call with combined data.
 3. Validate: `echo '{merged_json}' | python3 $SD/scripts/validate-questions.py`.
    - **errors** → show errors, LLM fixes JSON, re-validate once.
@@ -94,14 +109,14 @@ Skip if `paths` excludes `industry`.
 
 ---
 
-## Step 8 — Output
+## Step 9 — Output
 
 1. Write validated JSON → `questions.json`.
 2. Render `questions.md` using `$SD/assets/questions-template.md` — group by intent, include summary table, mark source per question.
-3. Print: `Generated {total} questions | Sources: manual={n} forum={n} issue={n} maillist={n} industry={n} | Paths: {paths_run}`.
+3. Print: `Generated {total} questions | Sources: manual={n} forum={n} issue={n} maillist={n} website={n} industry={n} | Paths: {paths_run}`.
 
 ---
 
-## Step 9 — Review Checkpoint
+## Step 10 — Review Checkpoint
 
 PAUSE: `⏸ Review questions.md — delete irrelevant, add missing. Resume when done.`
