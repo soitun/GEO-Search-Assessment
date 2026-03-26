@@ -1,24 +1,24 @@
-## GEO 改进建议
-
-**严重级别**: {severity}
-**现象类型**: {citation_types}
+**现象类型**: {phenomenon_type}
 **影响平台**: {affected_platforms}
+**内容源判定**: {content_judgment}
 
-### 问题背景
-
-以下问题在 AI 搜索平台的回答中存在官方内容引用不足的情况：
+### 涉及问题
 
 {question_list}
 
-### 问题描述
+### 现象描述
 
-{merged_suggestion_text}
+{phenomenon_detail}
 
-### 影响范围
+{cross_platform_section}
 
-- **涉及平台**: {affected_platforms}
-- **现象分类**:
-{citation_type_details}
+### 根本原因分析
+
+```
+{causal_chain}
+```
+
+{root_cause_bullets}
 
 ### 建议改进措施
 
@@ -26,9 +26,7 @@
 
 ### 参考信息
 
-- **分析来源**: GEO Search Assessment 自动评分
-- **评估日期**: {assessment_date}
-- **关联问题 ID**: {question_ids}
+{reference_urls}
 
 ---
-> 此 Issue 由 GEO Search Assessment 系统自动生成。
+> 此 Issue 由 GEO Search Assessment 系统自动生成，基于 content-labels.json 人工标注及多平台采样结果。

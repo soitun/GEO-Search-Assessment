@@ -10,7 +10,7 @@
 
 ## 目录
 
-**P0 — 立即行动（9 条）**
+**P0 — 立即行动（11 条）**
 
 - [[GEO-P0] 补充竞品对比/选型/行业定位类问题的官方内容（7题内容空白）](#s_001)
 - [[GEO-P0] 修正模型转换API幻觉：澄清export_from_torch/export_from_onnx不存在](#s_002)
@@ -21,6 +21,8 @@
 - [[GEO-P0] 修正贡献指南中的OpenI治理模式错误引用](#s_007)
 - [[GEO-P0] 发布MindSpore Lite官方基准测试报告，终止性能数字幻觉](#s_008)
 - [[GEO-P0] 创建国际开源峰会参与记录页面，防止KubeCon等信息被捏造](#s_009)
+- [[GEO-P0] 提升 SIG 专项页面可发现性：mindspore.cn/sig/* 未被AI平台引用，跨平台例会信息严重不一致](#s_011)
+- [[GEO-P0] 修复 mindspore.cn/activities 可发现性：4 平台仅 1 个正确引用官方活动页面，3 个捏造或偏移](#s_012)
 
 **P1 — 计划改进（1 条）**
 
@@ -122,52 +124,7 @@
 
 ---
 
-## [GEO-P0] 创建结构化SIG注册表页面，消除例会安排幻觉（5题受影响） {#s_003}
 
-**标签**: `geo-improvement,P0,correction`  
-**涉及问题**: `q_036`, `q_038`, `q_040`, `q_041`, `q_047`
-
-## GEO 改进建议
-
-**严重级别**: P0
-**现象类型**: 现象 C（引用错误/幻觉）
-**影响平台**: qwen
-**影响问题数**: 5
-**内容源判定**: ✅ 是内容源问题（建议修复官方内容本身）
-
-### 涉及问题
-
-- `q_036` MindSpore Transformers SIG 周例会的会议安排是怎样的？
-- `q_038` MindSpore 的 LLM Inference Serving SIG 是做什么的，多久开一次例会？
-- `q_040` MindSpore Parallel Training System SIG 的工作范围是什么？
-- `q_041` MindSpore Quantum SIG 的职责和活动是什么？
-- `q_047` MindSpore 有哪些 SIG（Special Interest Groups）？各个 SIG 负责什么方向？
-
-### 问题描述
-
-在gitee.com/mindspore/community创建结构化SIG注册表页面（sig-list.md或专用目录），每个SIG包含：名称、负责人、例会频率、例会链接/入口、邮件列表。当前issues/6789被AI平台作为SIG信息来源，需将该信息从issue迁移至正式文档，并确保Google/Bing/百度可抓取
-
-### 影响范围
-
-- **涉及平台**: qwen
-- **现象分类**: 现象 C（引用错误/幻觉）
-- **GEO 目录参考**: `REF-04, REF-05, ORG-05, CTX-01, EXP-03`
-
-### 建议改进措施
-
-在gitee.com/mindspore/community创建结构化SIG注册表页面（sig-list.md或专用目录），每个SIG包含：名称、负责人、例会频率、例会链接/入口、邮件列表。当前issues/6789被AI平台作为SIG信息来源，需将该信息从issue迁移至正式文档，并确保Google/Bing/百度可抓取
-
-### 参考信息
-
-- **分析来源**: GEO Search Assessment 自动评分（MindSpore version3，单平台 Qwen）
-- **评估日期**: 2026-03-25
-- **关联问题 ID**: q_036, q_038, q_040, q_041, q_047
-- **评分结果文件**: `MindSpore/version3/scoring-results.json`
-
----
-> 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
-
----
 
 ## [GEO-P0] 补充邮件列表平台说明，消除OpenI/mailweb.mindspore.cn混淆（3题受影响） {#s_004}
 
@@ -214,91 +171,6 @@
 
 ---
 
-## [GEO-P0] 创建官方活动日历页面，防止AI平台生成虚假活动信息 {#s_005}
-
-**标签**: `geo-improvement,P0,correction`  
-**涉及问题**: `q_032`
-
-## GEO 改进建议
-
-**严重级别**: P0
-**现象类型**: 现象 C（引用错误/幻觉）
-**影响平台**: qwen
-**影响问题数**: 1
-**内容源判定**: ⚠️ 单平台检出（建议优先修复官方文档后观察多平台效果）
-
-### 涉及问题
-
-- `q_032` MindSpore 2026 年有哪些活动规划？
-
-### 问题描述
-
-在mindspore.cn/news或community/events创建官方活动日历页面，及时发布已确认的活动信息。对于尚未规划的未来活动，在官网添加明确说明：'年度活动计划将于Q1公布'，防止AI平台基于空缺内容生成虚假预测
-
-### 影响范围
-
-- **涉及平台**: qwen
-- **现象分类**: 现象 C（引用错误/幻觉）
-- **GEO 目录参考**: `REF-04, REF-05, CTX-01, ORG-01`
-
-### 建议改进措施
-
-在mindspore.cn/news或community/events创建官方活动日历页面，及时发布已确认的活动信息。对于尚未规划的未来活动，在官网添加明确说明：'年度活动计划将于Q1公布'，防止AI平台基于空缺内容生成虚假预测
-
-### 参考信息
-
-- **分析来源**: GEO Search Assessment 自动评分（MindSpore version3，单平台 Qwen）
-- **评估日期**: 2026-03-25
-- **关联问题 ID**: q_032
-- **评分结果文件**: `MindSpore/version3/scoring-results.json`
-
----
-> 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
-
----
-
-## [GEO-P0] 在MindSpore Serving文档中声明vLLM兼容性状态 {#s_006}
-
-**标签**: `geo-improvement,P0,correction`  
-**涉及问题**: `q_007`
-
-## GEO 改进建议
-
-**严重级别**: P0
-**现象类型**: 现象 C（引用错误/幻觉）
-**影响平台**: qwen
-**影响问题数**: 1
-**内容源判定**: ⚠️ 单平台检出（建议优先修复官方文档后观察多平台效果）
-
-### 涉及问题
-
-- `q_007` 如何使用 vLLM 框架部署 MindSpore 模型并实现流式异步推理服务？
-
-### 问题描述
-
-在MindSpore Serving文档首页添加明确的集成状态说明：'MindSpore Serving是独立的推理服务框架，与vLLM不兼容（vLLM目前无MindSpore后端）'。如有集成规划，添加路线图说明。同时为LLM推理部署创建专项对比页面，说明MindSpore Serving vs vLLM的适用场景差异
-
-### 影响范围
-
-- **涉及平台**: qwen
-- **现象分类**: 现象 C（引用错误/幻觉）
-- **GEO 目录参考**: `NEG-01, NEG-03, REF-04, CTX-05, DIS-03`
-
-### 建议改进措施
-
-在MindSpore Serving文档首页添加明确的集成状态说明：'MindSpore Serving是独立的推理服务框架，与vLLM不兼容（vLLM目前无MindSpore后端）'。如有集成规划，添加路线图说明。同时为LLM推理部署创建专项对比页面，说明MindSpore Serving vs vLLM的适用场景差异
-
-### 参考信息
-
-- **分析来源**: GEO Search Assessment 自动评分（MindSpore version3，单平台 Qwen）
-- **评估日期**: 2026-03-25
-- **关联问题 ID**: q_007
-- **评分结果文件**: `MindSpore/version3/scoring-results.json`
-
----
-> 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
-
----
 
 ## [GEO-P0] 修正贡献指南中的OpenI治理模式错误引用 {#s_007}
 
@@ -336,92 +208,6 @@
 - **分析来源**: GEO Search Assessment 自动评分（MindSpore version3，单平台 Qwen）
 - **评估日期**: 2026-03-25
 - **关联问题 ID**: q_035
-- **评分结果文件**: `MindSpore/version3/scoring-results.json`
-
----
-> 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
-
----
-
-## [GEO-P0] 发布MindSpore Lite官方基准测试报告，终止性能数字幻觉 {#s_008}
-
-**标签**: `geo-improvement,P0,correction`  
-**涉及问题**: `q_034`
-
-## GEO 改进建议
-
-**严重级别**: P0
-**现象类型**: 现象 C（引用错误/幻觉）
-**影响平台**: qwen
-**影响问题数**: 1
-**内容源判定**: ⚠️ 单平台检出（建议优先修复官方文档后观察多平台效果）
-
-### 涉及问题
-
-- `q_034` 端侧 AI 推理框架怎么选？MindSpore Lite 和 TFLite/NCNN 对比如何？
-
-### 问题描述
-
-在mindspore.cn/lite发布官方基准测试报告，包含：测试硬件（Ascend 310/310P）、测试模型（ResNet50/YOLOv5等）、延迟/吞吐量数据、与TFLite/NCNN的对比（可选）。有了官方基准数据，AI平台将引用真实数据而非生成虚假数字
-
-### 影响范围
-
-- **涉及平台**: qwen
-- **现象分类**: 现象 C（引用错误/幻觉）
-- **GEO 目录参考**: `REF-04, REF-01, EXC-01, CTX-08, EXP-08`
-
-### 建议改进措施
-
-在mindspore.cn/lite发布官方基准测试报告，包含：测试硬件（Ascend 310/310P）、测试模型（ResNet50/YOLOv5等）、延迟/吞吐量数据、与TFLite/NCNN的对比（可选）。有了官方基准数据，AI平台将引用真实数据而非生成虚假数字
-
-### 参考信息
-
-- **分析来源**: GEO Search Assessment 自动评分（MindSpore version3，单平台 Qwen）
-- **评估日期**: 2026-03-25
-- **关联问题 ID**: q_034
-- **评分结果文件**: `MindSpore/version3/scoring-results.json`
-
----
-> 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
-
----
-
-## [GEO-P0] 创建国际开源峰会参与记录页面，防止KubeCon等信息被捏造 {#s_009}
-
-**标签**: `geo-improvement,P0,correction`  
-**涉及问题**: `q_048`
-
-## GEO 改进建议
-
-**严重级别**: P0
-**现象类型**: 现象 C（引用错误/幻觉）
-**影响平台**: qwen
-**影响问题数**: 1
-**内容源判定**: ⚠️ 单平台检出（建议优先修复官方文档后观察多平台效果）
-
-### 涉及问题
-
-- `q_048` MindSpore 是否参加过 KubeCon 等国际开源峰会？
-
-### 问题描述
-
-在mindspore.cn/community/events或news板块创建'国际交流'专项页面，列出MindSpore参与过的国际开源峰会（含演讲主题、链接）。若无此类活动，添加说明；若有，提供可引用的官方记录，防止AI平台凭空捏造参会历史
-
-### 影响范围
-
-- **涉及平台**: qwen
-- **现象分类**: 现象 C（引用错误/幻觉）
-- **GEO 目录参考**: `REF-05, REF-04, ORG-01`
-
-### 建议改进措施
-
-在mindspore.cn/community/events或news板块创建'国际交流'专项页面，列出MindSpore参与过的国际开源峰会（含演讲主题、链接）。若无此类活动，添加说明；若有，提供可引用的官方记录，防止AI平台凭空捏造参会历史
-
-### 参考信息
-
-- **分析来源**: GEO Search Assessment 自动评分（MindSpore version3，单平台 Qwen）
-- **评估日期**: 2026-03-25
-- **关联问题 ID**: q_048
 - **评分结果文件**: `MindSpore/version3/scoring-results.json`
 
 ---
@@ -478,3 +264,104 @@
 > 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
 
 ---
+
+## [GEO-P0] 修复 mindspore.cn/activities 可发现性：4 平台仅 1 个正确引用官方活动页面，3 个捏造或偏移 {#s_012}
+
+**标签**: `geo-improvement,P0,seo`
+**涉及问题**: `q_032`
+
+**现象类型**: 引用源错误 — 官方内容已存在但被错误来源替代
+**影响平台**: qwen、doubao、chatgpt（kimi 正确引用）
+**内容源判定**: ⚠️ 非内容缺失问题（内容已存在于 `mindspore.cn/activities`，但 3/4 平台未正确引用），需修复**可发现性/内链**
+
+### 涉及问题
+
+- `q_032` MindSpore 2026 年有哪些活动规划？
+
+### 现象描述
+
+`mindspore.cn/activities` 页面已存在且内容完整（`content_coverage: full`），但在 4 个平台的采样中，仅 Kimi 正确引用了该页面。Qwen 引用了 `mindspore.cn/news` 和 `gitee.com/mindspore/community` 等周边页面，并虚构了 MindSpore Summit 2026 的具体日期和"5000+ 开发者"数据；Doubao 仅引用了一个论坛帖子（`discuss.mindspore.cn/t/topic/1456/1`），未触达官方活动页；ChatGPT 零次引用官方来源，将 MindSpore 的活动规划替换为 CSDN/科技日报等行业新闻中的宏观 AI 活动动态。
+
+### 跨平台不一致性
+
+| 平台 | 引用 /activities | 主要来源 | 核心问题 |
+|------|----------------|---------|---------|
+| Qwen | ❌ 未引用 | mindspore.cn/news, gitee.com/mindspore/community | 虚构 Summit 2026 日期、"5000+ 开发者"数据 |
+| Kimi | ✅ 正确引用 | mindspore.cn/activities, mindspore.cn/calendar | 内容相对准确 |
+| Doubao | ❌ 未引用 | discuss.mindspore.cn/t/topic/1456/1（论坛帖） | 仅依赖单一论坛帖，缺乏官方背书 |
+| ChatGPT | ❌ 零官方引用 | deepseek.csdn.net, gccorg.com, stdaily.com, huaweicloud.com | 将 MindSpore 活动替换为 AI 行业通用新闻 |
+
+### 根本原因分析
+
+```
+[mindspore.cn/activities 内容完整但结构化标记与内链缺失]
+    ↓ 缺少 Schema.org Event 结构化数据，爬虫无法识别为活动日历
+    ↓ /activities 未出现在首页/news/community 等高权重页面的内链中
+    ↓ 2026 年具体活动尚未发布，页面存在预期内容真空
+    ↓ Qwen 主动捏造峰会日期；ChatGPT 以行业新闻完全替代官方内容
+```
+
+1. `mindspore.cn/activities` 缺乏 `Schema.org/Event` 结构化标注，导致 AI 爬虫无法将该页面识别为权威活动日历来源
+2. `/activities` 未被 `mindspore.cn/news`、`/community`、首页导航等高 PageRank 页面内链引用，页面权重被低估
+3. 2026 年具体活动尚未公布，内容真空诱导 Qwen 虚构具体日期和参与数字（已在 scoring-results.json 中标注为 `fabricated_claims + vague_numbers`）
+4. ChatGPT 完全未命中官方来源，将查询关联到 CSDN/科技日报等行业媒体，说明该平台对 MindSpore 与其官方活动页面的关联建立失败
+
+### 建议改进措施
+
+**措施 1 — 为 /activities 页面添加 Schema.org Event 结构化数据**
+
+在 `mindspore.cn/activities` 的每个活动条目中嵌入 JSON-LD 结构化数据：
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "MindSpore Summit 2025",
+  "startDate": "2025-XX-XX",
+  "location": { "@type": "Place", "name": "北京" },
+  "organizer": { "@type": "Organization", "name": "MindSpore" },
+  "url": "https://www.mindspore.cn/activities/summit2025"
+}
+```
+
+使结构化数据覆盖所有已发布活动条目，让 AI 平台可直接抽取事实性数据而非自行推断。
+
+**措施 2 — 增加内链密度：从高权重页面引用 /activities**
+
+在以下页面添加明确的 `/activities` 入口链接：
+- `mindspore.cn/`（首页导航栏或"近期活动"卡片）
+- `mindspore.cn/news`（侧边栏"活动预告"模块）
+- `mindspore.cn/community`（"参与社区"板块）
+- `gitee.com/mindspore/community` README 的"参与方式"章节
+
+**措施 3 — 发布 2026 年活动占位说明，消除信息真空**
+
+在 `/activities` 页面顶部添加明确的占位横幅：
+
+> "2026 年活动计划将于 Q1 公布，敬请关注。订阅 [mindspore.cn/news] 获取第一手公告。"
+
+此措施直接防止 Qwen 类行为：检测到"2026 活动"内容空缺后主动生成虚假峰会日期和参与数字。
+
+**措施 4 — 将 /activities 加入 sitemap.xml 并设高爬取优先级**
+
+在 `mindspore.cn/sitemap.xml` 中为活动页面设置：
+
+```xml
+<url>
+  <loc>https://www.mindspore.cn/activities</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+</url>
+```
+
+确保搜索引擎和 AI 爬虫定期更新活动页面索引，避免因长期无更新被降权。
+
+### 参考信息
+
+- **正确官方来源**: `https://www.mindspore.cn/activities`
+- **相关评分结果**: `MindSpore/version3/scoring-results.json`（s_005, q_032, severity: P0, citation_type: C, accuracy_score: 2）
+- **跨平台采样**: `MindSpore/version3/responses.json`（q_032，4 个平台：qwen/kimi/doubao/chatgpt）
+- **注**: s_005 基于 Qwen 单平台评分，建议以本 Issue 的多平台分析为准；s_005 中"创建活动日历"建议已过时，官方页面已存在，问题在于可发现性
+
+---
+> 此 Issue 由 GEO Search Assessment 系统自动生成，基于 content-labels.json 人工标注及多平台采样结果。

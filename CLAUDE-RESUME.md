@@ -27,12 +27,14 @@ Data flows as JSON between skills, with Markdown output for human review.
 
 ## Step 1 Design (get-question) — AGREED
 
-Question sources: manual input + 4 selectable auto-generation paths (`paths` param: `forum`, `issue`, `maillist`, `industry`, `all`)
+Question sources: manual input + 5 selectable auto-generation paths (`paths` param: `forum`, `issue`, `maillist`, `website`, `industry`, `all`)
 
 - **Manual input**: Community operators write questions in `manual-questions.md` (Markdown), skill auto-parses to structured JSON. No YAML needed.
 - **Path 1 (PRIMARY): Forum usage question extraction (使用阶段)** — Fetch top topics from MindSpore Discourse forum (`https://discuss.mindspore.cn`) via API. Fetches from 问题求助 Help + MindSpore Lite categories + global top. LLM rewrites titles to search questions, filters pure bugs. Forum + issues are the primary question source.
 - **Path 2 (PRIMARY): Repo issue question extraction (使用阶段)** — Fetch issues from GitCode (`https://gitcode.com/mindspore/mindspore/issues`) via API (`api.gitcode.com/api/v5`). Requires `GITCODE_TOKEN`. Sorted by comments, LLM rewrites to search questions. No LLM fallback — skip if no token.
-- **Path 3: Industry question discovery (了解阶段)** — LLM determines community's domain hierarchy (industry → sub-domain → positioning → competitors), then generates questions by user intent (认知/选型/趋势/场景). Uses competitors for reverse expansion.
+- **Path 3: Maillist (SIG) question extraction (使用阶段)** — Two-step: MagicAPI fetches SIG list → HyperKitty API fetches email archives from mailweb.mindspore.cn. Active lists: dev(71), tsc(53), discuss(49), infra(8). LLM filters/rewrites to search questions.
+- **Path 4: Website search keywords (使用阶段)** — Calls official website's internal search hot-words API (`WEBSITE_SEARCH_URL`, must be provided by community ops). Filters navigation/brand terms. LLM rewrites raw search terms into natural language questions. No fallback — skip if `WEBSITE_SEARCH_URL` not set. Optional auth via `WEBSITE_SEARCH_TOKEN`.
+- **Path 5: Industry question discovery (了解阶段)** — LLM determines community's domain hierarchy (industry → sub-domain → positioning → competitors), then generates questions by user intent (认知/选型/趋势/场景). Uses competitors for reverse expansion.
 Merge (manual + selected paths) → semantic dedup → classify → output `questions.json` + `questions.md`.
 
 Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
@@ -87,7 +89,7 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 | ~~improvement-advisor~~ | merged into scoring-engine (2026-03-19) | ❌ Deleted |
 
 ### get-question
-- 9-step procedure: Load config → Parse manual → Path 1 (forum) → Path 2 (issue) → Path 3 (maillist/SIG) → Path 4 (industry LLM) → Merge & dedup → Output → Human review
+- 10-step procedure: Load config → Parse manual → Path 1 (forum) → Path 2 (issue) → Path 3 (maillist/SIG) → Path 4 (website search keywords) → Path 5 (industry LLM) → Merge & dedup → Output → Human review
 - Maillist path: two-step flow — (1) MagicAPI fetches SIG list → extracts mailing_list addresses, (2) HyperKitty API fetches email archives from mailweb.mindspore.cn → thread subjects + email content. Active lists: dev(71), tsc(53), discuss(49), infra(8).
 - Forum: all content types included (technical, events, blogs, announcements) — views are relevance filter, not content type
 - Forum endpoint: `/c/{slug}/{id}/l/top.json?period=all` (views-sorted, not latest activity)
@@ -122,14 +124,16 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 
 ## Current Status
 
-- **Phase**: All 4 pipeline skills created. get-question expanded to 4 paths (forum/issue/maillist/industry). Scoring-engine analysis completed for Q1,Q4,Q5,Q7,Q9,Q10. GEO improvement reports created for all Q1-Q10.
-- **Scoring results**: `scoring-results.json` (28 scored pairs) + `suggestions.md` (7-section report)
-- **Key findings**: 5 P0 issues (all Type C citation errors), concentrated in 豆包 (3) and DeepSeek (2). Perplexity and 千问 perform best. Q1 (install) is benchmark case — 0% hallucination. Q9 (model format) has highest divergence across platforms.
-- **Q1-Q3 analysis**: Q1 (install) best-answered across all platforms (proves good docs→good AI answers). Q2: no official version strategy doc → platforms guess wildly. Q3: all correct (num_shards/shard_id).
-- **Q4-Q7 analysis**: SPA pages (activities/contribution) are root GEO blocker. Q6: 3/5 platforms fabricate non-existent APIs. Q7: 豆包 fabricates extensive fake features. 千问 and Perplexity perform best.
-- **Q8-Q10 analysis**: Q9 is the worst — 3/4 platforms incorrectly claim MindSpore can "directly read" PyTorch/TF models. Q10: 豆包 completely off-topic (answered as big data ETL), DeepSeek returned irrelevant content. 千问 is the best performer across all 3 questions.
+- **Phase**: All 4 pipeline skills created. MindSpore/version3 scoring completed (Qwen-only, 47 questions). Multi-platform data being collected for key questions.
+- **version3 scoring**: `MindSpore/version3/scoring-results.json` + `suggestions.md` (47 questions, 1 platform)
+- **version3 key findings**: 24 P0 (7×A + 17×C), 8 P1 (E), 3 P2, 12 OK. Qwen avg score 5.8/10. Major hallucination patterns: (1) fabricated model conversion APIs (export_from_torch/export_from_onnx); (2) SIG meeting schedules from issues/6789; (3) mailing list platform confusion (OpenI vs mailweb.mindspore.cn). Single-platform only — needs ChatGPT/DeepSeek/豆包 for cross-platform analysis.
+- **version3 files**: `responses.json` (53 entries: 47 Qwen + multi-platform for q_032/q_037), `content-labels.json` (auto-generated, needs human review — NOTE: JSON syntax error at line 321), `scoring-results.json`, `suggestions.md`, `issues-draft.md` (s_001–s_011)
+- **version3 multi-platform**: q_032 now has 4 platforms (qwen/kimi/doubao/chatgpt); q_037 has 4 platforms (qwen/chatgpt/kimi/doubao)
+- **issues-draft.md**: 10 P0 issues (s_001–s_011 where s_011 is new: SIG page discoverability, mindspore.cn/sig/* not cited, C-type)
+- **issue-creator skill**: Updated SKILL.md (community/version_label inputs, richer LLM prompt with causal_chain/cross_platform_section/action_items) and issue-template.md (matches real-world issue.md format)
+- **Old scoring results**: `MindSpore/version1/scoring-results.json` (10 questions, 5 platforms), `MindSpore/version2/scoring-results.json` (3 questions, 4 platforms)
 - **Branch**: `main`
-- **Last updated**: 2026-03-17
+- **Last updated**: 2026-03-26
 
 ## TODO
 
@@ -189,9 +193,15 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 | 2026-03-13 | Created GEO-Improvement-Report-Q4-Q7.md: analyzed Q4-Q7 (activities, contribution, PyTorch migration, v2.8.0 features) |
 | 2026-03-13 | Created GEO-Improvement-Report-Q1-Q3.md: analyzed Q1-Q3 (install, version cadence, data sharding), completed full Q1-Q10 analysis |
 | 2026-03-17 | Added maillist path (Path 3) to get-question: fetches SIG data from mindspore.cn/sig via official APIs |
+| 2026-03-24 | Added website search keyword path (Path 4) to get-question: calls official website's internal search hot-words API, filtered by navigation/brand terms, LLM rewrites to natural language questions. Industry shifted to Path 5. Now 5 paths total. |
 | 2026-03-17 | Created fetch-sig-info.py: Step 1 MagicAPI→SIG mailing lists, Step 2 HyperKitty API→email archives |
 | 2026-03-17 | Discovered mindspore.cn/sig data sources: MagicAPI, Meeting API, HyperKitty (Mailman 3), Etherpad, OBS |
 | 2026-03-17 | get-question now 9 steps (was 8), 4 paths: forum, issue, maillist, industry |
+| 2026-03-26 | responses.json repaired twice: fixed raw text blocks for q_037 (lines 711-856) and q_032 (lines 626-935), now 53 total entries |
+| 2026-03-26 | Added multi-platform data: q_032 now has 4 entries (qwen/kimi/doubao/chatgpt), q_037 has 4 entries |
+| 2026-03-26 | Added s_011 to issues-draft.md: SIG page discoverability (C-type, P0), cross-platform meeting time inconsistency |
+| 2026-03-26 | Updated issue-creator SKILL.md: community/version_label inputs, richer LLM prompt, ASCII causal chain, cross-platform table |
+| 2026-03-26 | Updated issue-creator issue-template.md: matches real-world issue.md format (phenomenon_type, causal_chain, action_items) |
 
 ## Key Decisions
 
@@ -205,7 +215,7 @@ Priority: manual > forum (path1) / issue (path2) > multi-source > single-source.
 - MVP platforms (4): ChatGPT + DeepSeek + 豆包 + Qwen（Perplexity 已移除）
 - API tokens stored in `.env`, template in `.env.example`
 - Two scenarios in parallel: 了解阶段 (industry discovery) + 使用阶段 (usage extraction)
-- Forum (Discourse API) is primary question source; all 4 paths selectable via `paths` param (forum, issue, maillist, industry)
+- Forum (Discourse API) is primary question source; all 5 paths selectable via `paths` param (forum, issue, maillist, website, industry)
 - Path 4 (AI reverse extraction) permanently removed — circular reasoning risk; real data only
 - Forum includes all content types (not filtered by category type); views = relevance signal
 - Forum URL: https://discuss.mindspore.cn/ (Discourse, public API, no auth needed)
