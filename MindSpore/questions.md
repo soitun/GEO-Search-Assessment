@@ -7,6 +7,53 @@
 
 ---
 
+## 了解阶段
+
+### 认知
+
+| # | 问题 | 来源 |
+|---|------|------|
+| q_022 | 国内主流深度学习框架有哪些？各自有什么优缺点？ | industry |
+| q_024 | TensorFlow 有哪些国产平替方案？ | industry |
+| q_025 | 华为 AI 全栈开发生态包含哪些核心组件？MindSpore 在其中的定位是什么？ | industry |
+| q_027 | MindSpore 的版本发布节奏是怎样的？ | manual |
+| q_036 | MindSpore Transformers SIG 周例会的会议安排是怎样的？ | dev@mindspore.cn |
+| q_038 | MindSpore 的 LLM Inference Serving SIG 是做什么的，多久开一次例会？ | dev@mindspore.cn |
+| q_040 | MindSpore Parallel Training System SIG 的工作范围是什么？ | dev@mindspore.cn |
+| q_041 | MindSpore Quantum SIG 的职责和活动是什么？ | dev@mindspore.cn |
+| q_043 | 如何向 MindSpore TSC 申请成立新的 SIG？ | mindspore-tsc@mindspore.cn |
+| q_045 | MindSpore TSC 是什么，它的职责和会议频率是怎样的？ | mindspore-tsc@mindspore.cn |
+| q_047 | MindSpore 有哪些 SIG（Special Interest Groups）？各个 SIG 负责什么方向？ | mindspore-tsc@mindspore.cn |
+| q_048 | MindSpore 是否参加过 KubeCon 等国际开源峰会？ | mindspore-tsc@mindspore.cn |
+| q_059 | MindSpore 如何通过自动化工具管理社区例会通知？社区采用什么会议平台？ | mindspore-discuss@mindspore.cn |
+| q_063 | MindSpore 的安全 SIG（Security SIG）如何处理漏洞报告和安全问题？ | mindspore-discuss@mindspore.cn |
+| q_064 | MindSpore 的 TSC 会议是否对外公开？社区成员如何参与治理讨论？ | mindspore-tsc@mindspore.cn |
+
+### 选型
+
+| # | 问题 | 来源 |
+|---|------|------|
+| q_028 | MindSpore 和 PyTorch 相比有哪些优势和不足，应该如何选择？ | industry |
+| q_029 | How does MindSpore compare to PyTorch for deep learning development? | industry |
+| q_030 | 做国产 AI 应用开发应该选 MindSpore 还是 PaddlePaddle？ | industry |
+
+### 趋势
+
+| # | 问题 | 来源 |
+|---|------|------|
+| q_031 | 2025 年深度学习框架的发展趋势是什么？国产框架的机遇在哪里？ | industry |
+| q_032 | MindSpore 2026 年有哪些活动规划？ | manual |
+
+### 场景
+
+| # | 问题 | 来源 |
+|---|------|------|
+| q_033 | 有哪些 AI 框架适合运行在华为昇腾 NPU 上？ | industry |
+| q_034 | 端侧 AI 推理框架怎么选？MindSpore Lite 和 TFLite/NCNN 对比如何？ | industry |
+| q_035 | 新手如何加入 MindSpore 社区并参与开源贡献？ | manual |
+
+---
+
 ## 使用阶段
 
 ### 故障
@@ -55,47 +102,3 @@
 
 ---
 
-## 了解阶段
-
-### 认知
-
-| # | 问题 | 来源 |
-|---|------|------|
-| q_022 | 国内主流深度学习框架有哪些？各自有什么优缺点？ | industry |
-| q_024 | TensorFlow 有哪些国产平替方案？ | industry |
-| q_025 | 华为 AI 全栈开发生态包含哪些核心组件？MindSpore 在其中的定位是什么？ | industry |
-| q_027 | MindSpore 的版本发布节奏是怎样的？ | manual |
-| q_036 | MindSpore Transformers SIG 周例会的会议安排是怎样的？ | dev@mindspore.cn |
-| q_038 | MindSpore 的 LLM Inference Serving SIG 是做什么的，多久开一次例会？ | dev@mindspore.cn |
-| q_040 | MindSpore Parallel Training System SIG 的工作范围是什么？ | dev@mindspore.cn |
-| q_041 | MindSpore Quantum SIG 的职责和活动是什么？ | dev@mindspore.cn |
-| q_043 | 如何向 MindSpore TSC 申请成立新的 SIG？ | mindspore-tsc@mindspore.cn |
-| q_045 | MindSpore TSC 是什么，它的职责和会议频率是怎样的？ | mindspore-tsc@mindspore.cn |
-| q_047 | MindSpore 有哪些 SIG（Special Interest Groups）？各个 SIG 负责什么方向？ | mindspore-tsc@mindspore.cn |
-| q_048 | MindSpore 是否参加过 KubeCon 等国际开源峰会？ | mindspore-tsc@mindspore.cn |
-| q_059 | MindSpore 如何通过自动化工具管理社区例会通知？社区采用什么会议平台？ | mindspore-discuss@mindspore.cn |
-| q_063 | MindSpore 的安全 SIG（Security SIG）如何处理漏洞报告和安全问题？ | mindspore-discuss@mindspore.cn |
-| q_064 | MindSpore 的 TSC 会议是否对外公开？社区成员如何参与治理讨论？ | mindspore-tsc@mindspore.cn |
-
-### 选型
-
-| # | 问题 | 来源 |
-|---|------|------|
-| q_028 | MindSpore 和 PyTorch 相比有哪些优势和不足，应该如何选择？ | industry |
-| q_029 | How does MindSpore compare to PyTorch for deep learning development? | industry |
-| q_030 | 做国产 AI 应用开发应该选 MindSpore 还是 PaddlePaddle？ | industry |
-
-### 趋势
-
-| # | 问题 | 来源 |
-|---|------|------|
-| q_031 | 2025 年深度学习框架的发展趋势是什么？国产框架的机遇在哪里？ | industry |
-| q_032 | MindSpore 2026 年有哪些活动规划？ | manual |
-
-### 场景
-
-| # | 问题 | 来源 |
-|---|------|------|
-| q_033 | 有哪些 AI 框架适合运行在华为昇腾 NPU 上？ | industry |
-| q_034 | 端侧 AI 推理框架怎么选？MindSpore Lite 和 TFLite/NCNN 对比如何？ | industry |
-| q_035 | 新手如何加入 MindSpore 社区并参与开源贡献？ | manual |
