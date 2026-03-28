@@ -22,7 +22,7 @@ Create GitHub or GitCode Issues from GEO improvement suggestions, one Issue per 
 
 1. Read `.env` from the project root.
 2. Accept required and optional inputs from the caller:
-   - `repo_url` (required): Full repository URL, e.g. `https://github.com/opensourceways/portal-mcp-servers` or `https://gitcode.com/mindspore/mindspore`
+   - `repo_url` (required): Full repository URL, e.g. `https://github.com/opensourceways/portal-mcp-servers` or `https://gitcode.com/mindspore/mindspore-portal/`
    - `input_file` (optional): Path to scoring results. Default: `scoring-results.json`
    - `community` (optional): Community name for the Issue title prefix, e.g. `MindSpore`. Default: auto-read from `scoring-results.json` metadata field `community`, or inferred from the `input_file` path.
    - `version_label` (optional): Assessment round label for the title prefix, e.g. `V2`. Default: derived from the `input_file` directory name (e.g. `version3` → `V3`).
