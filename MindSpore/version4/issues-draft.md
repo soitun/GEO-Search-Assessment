@@ -263,4 +263,216 @@
 ---
 > 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
 
+
+---
+
+## [version4 q_032 专项分析] MindSpore 2026 年有哪些活动规划？ — 5 平台多模型评估
+
+> 分析时间: 2026-03-27  
+> 来源: `MindSpore/version4/responses.json`，q_032，5 个平台（deepseek / kimi / doubao / chatgpt / perplexity）  
+> 官方内容状态: ✅ content_exists=true，content_coverage=full，官方 URL: https://www.mindspore.cn/activities  
+> 关联已有 Issue: [s_012](#s_012)（version3 已报告 activities 可发现性问题，本次 5 平台数据进一步确认）
+
+### 评分汇总
+
+| 平台 | 现象类型 | 官方引用率 | 评分 | 严重级别 | 主要问题 |
+|------|---------|-----------|------|---------|---------|
+| perplexity | D | 100% | 7/10 | P2 | entity_confusion（量子黑客松归属混淆）|
+| deepseek | D | 100% | 5/10 | P2 | shallow_content，仅覆盖 1 项活动 |
+| chatgpt | **B** | **0%** | 4/10 | **P1** | 零官方引用，声称无官方 2026 规划 |
+| kimi | **C** | 100% | 5/10 | **P0** | HyperParallel 技术发布混入活动；量子黑客松实体混淆 |
+| doubao | **C** | 100% | 4/10 | **P0** | 捏造日期(2026.3.31)；MindSpore 2.0 版本号错误 |
+
+**跨平台模式汇总**
+- **3/5 平台**（deepseek、doubao、chatgpt）未引用官方活动主页 mindspore.cn/activities → 内容源问题
+- **2/5 平台**（kimi、perplexity）将 openEuler 量子计算黑客松归入 MindSpore 活动 → 社区边界问题
+- **2/5 平台**（kimi、doubao）引用官方源但产生幻觉内容 → 活动页面质量锚点缺失
+
+---
+
+## [GEO-P0] 活动页面缺乏质量锚点：doubao/kimi 产生 C 型幻觉（捏造日期、版本号混淆、技术路线图混入）{#s_013}
+
+**标签**: `geo-improvement,P0,correction,version4`  
+**涉及问题**: `q_032`
+
+## GEO 改进建议
+
+**严重级别**: P0  
+**现象类型**: 现象 C（引用了官方源，但混入错误/捏造信息）  
+**影响平台**: doubao, kimi（2 平台）  
+**内容源判定**: ✅ 是内容源问题（活动页面缺少版本锚点、活动类型标签、路线图边界，导致 AI 补充幻觉内容）
+
+### 涉及问题
+
+- `q_032` MindSpore 2026 年有哪些活动规划？
+
+### 问题描述
+
+两个平台均引用了官方源，但在官方内容之外补充了错误信息，形成 C 型幻觉：
+
+#### doubao（2 处错误）
+
+**错误 1 — 版本号混淆**  
+doubao 声称「时间：2026.3.31 昇思MindSpore年度大会，内容：发布 MindSpore 2.0、大模型平台升级」。  
+MindSpore 2.0 于 2022 年已发布，2026 年维护版本为 2.x 系列，AI 将历史版本号误植入 2026 规划。
+
+**错误 2 — 捏造活动日期**  
+日期"2026.3.31"为 AI 自行推算（MindSpore 约于 2020 年 3 月开源，AI 据此推断生日会日期），官方活动页面并无该活动公告。doubao 仅引用论坛征稿帖（discuss.mindspore.cn/t/topic/1456/1），该帖不含年度大会信息。
+
+#### kimi（2 处错误）
+
+**错误 1 — 技术路线图混入活动规划**  
+kimi 将「HyperParallel 架构及其配套全模态/强化学习套件，计划于 2026 年上半年正式发布」列为核心"活动"。技术架构发布属于版本路线图，与社区活动（竞赛/峰会/Meetup）性质不同，官方活动页面不含此类条目。
+
+**错误 2 — 跨社区赛事误归（见 s_015）**  
+kimi 将量子计算黑客松（openEuler 赛事）列为 MindSpore 活动，详见 [s_015](#s_015)。
+
+### 根因链
+
+```
+官方活动页面缺少以下内容
+    ├─ 版本线锚点（无"当前版本为 2.x"声明）
+    │     → doubao 混淆历史版本号，捏造 MindSpore 2.0 发布事件
+    ├─ 活动类型标签（活动 vs 技术发布未分类）
+    │     → kimi 将 HyperParallel 路线图误识别为活动
+    └─ 未确认活动占位声明（无"年度大会待定"提示）
+          → doubao AI 根据周年规律自行推算日期
+```
+
+### 建议改进措施
+
+1. **版本线锚点**：在 mindspore.cn/activities 页面顶部或侧栏，标注"当前版本：MindSpore 2.x（2022 年起）"，防止 AI 将历史版本号与 2026 规划关联
+2. **活动类型标签**：为每项活动标注类型标签（`[竞赛]` `[峰会]` `[培训]` `[SIG例会]` `[技术直播]`），明确区别于"版本发布"条目
+3. **路线图与活动页分离**：在官网导航中明确区分"活动"（mindspore.cn/activities）与"路线图"（mindspore.cn/roadmap），避免 AI 从两者混合检索
+4. **未确认活动占位**：对于周期性活动（年度大会/生日会），即使尚未确定日期，也在活动页发布"预计举办，日期待公布"的占位条目
+
+### 影响范围
+
+- **涉及平台**: doubao, kimi
+- **现象分类**: 现象 C（引用错误/幻觉）
+- **GEO 目录参考**: `VER-01, VER-02, NEG-01, DIS-02, REF-06, CTX-04`
+
+### 参考信息
+
+- **分析来源**: GEO Search Assessment（MindSpore version4，多平台）
+- **评估日期**: 2026-03-27
+- **关联问题 ID**: q_032
+- **评分结果文件**: `MindSpore/version4/scoring-results.json`
+
+---
+> 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
+
+---
+
+## [GEO-P1] mindspore.cn/activities 对 AI 可发现性不足：5 平台中 3 个未引用主页，ChatGPT 引用率 0% 并声称无官方规划 {#s_014}
+
+**标签**: `geo-improvement,P1,seo,version4`  
+**涉及问题**: `q_032`
+
+## GEO 改进建议
+
+**严重级别**: P1（跨 3 平台内容源问题）  
+**现象类型**: 现象 B（官方内容存在，但被 AI 绕过未引用）  
+**影响平台**: deepseek, doubao, chatgpt（3 平台）  
+**内容源判定**: ✅ 是内容源问题（activities 页面 SEO 弱于论坛帖，ChatGPT 完全未检索到）
+
+### 涉及问题
+
+- `q_032` MindSpore 2026 年有哪些活动规划？
+
+### 问题描述
+
+官方内容状态为 full（mindspore.cn/activities 内容完整），但 5 个平台中有 3 个未引用该页面：
+
+| 平台 | 引用 mindspore.cn/activities | 实际引用来源 | 后果 |
+|------|---------------------------|------------|------|
+| kimi | ✅ | 活动页 + 日历页 | 信息最接近官方（但混入路线图）|
+| perplexity | ✅ | 活动页 + 官网首页 + gitee Roadmap | 最佳回答（P2）|
+| deepseek | ❌ | 仅论坛征稿帖 | 仅覆盖 1 项活动（P2，极浅）|
+| doubao | ❌ | 仅论坛征稿帖 | 活动信息不足，补充了幻觉内容（P0）|
+| chatgpt | ❌ | 全部第三方来源 | 引用率 0%，声称"官方未发布 2026 年规划"（P1）|
+
+**关键观察**：
+- deepseek 和 doubao 均落地到论坛征稿帖（discuss.mindspore.cn/t/topic/1456），说明**论坛帖的 SEO 权重显著高于官方活动主页**
+- chatgpt 完全未检索到任何官方来源，明确声称"MindSpore 官方并没有发布 2026 年全年活动日历"——该声明与官方实际情况相矛盾，会误导用户
+
+该模式跨 3 个平台（≥3），按评分规则判定为内容源问题，已在 version3 [s_012] 中首次报告，本次 5 平台数据进一步确认。
+
+### 建议改进措施
+
+1. **活动页内容前置化**：页面顶部 150 字内直接列出正在进行/即将开始的主要活动（名称、时间、链接），使用文本列表而非纯图片/视觉卡片，提升 AI 可解析性
+2. **论坛帖反向链接**：在 discuss.mindspore.cn/t/topic/1456 帖子顶部置顶说明："完整 2026 年活动规划请访问 mindspore.cn/activities"，将论坛帖的高权重导向官方主页
+3. **schema.org/Event 结构化标记**：为每项活动添加结构化标记（name、startDate、endDate、url），帮助 ChatGPT/Bing 等平台准确提取
+4. **SEO 关键词覆盖**：在 title 和 meta description 中加入"2026年活动规划""MindSpore社区活动日历""昇思开发者活动"等变体，覆盖 ChatGPT 的检索词
+5. **内链提权**：在 mindspore.cn 首页、社区主页、文档首页添加"2026活动"快速入口，通过内链提升活动页权重
+
+### 影响范围
+
+- **涉及平台**: deepseek, doubao, chatgpt
+- **现象分类**: 现象 B / 内容源
+- **GEO 目录参考**: `CTX-02, CTX-03, SITE-01, SITE-02, SITE-03, KWD-01, KWD-02, ORG-04`
+- **关联 version3 Issue**: s_012
+
+### 参考信息
+
+- **分析来源**: GEO Search Assessment（MindSpore version4，多平台）
+- **评估日期**: 2026-03-27
+- **关联问题 ID**: q_032
+- **评分结果文件**: `MindSpore/version4/scoring-results.json`
+
+---
+> 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
+
+---
+
+## [GEO-P2] 量子计算黑客松被误归为 MindSpore 活动：kimi + perplexity 跨社区实体混淆（2/5 平台）{#s_015}
+
+**标签**: `geo-improvement,P2,correction,version4`  
+**涉及问题**: `q_032`
+
+## GEO 改进建议
+
+**严重级别**: P2  
+**现象类型**: 现象 C/D（entity_confusion，将 openEuler 赛事混入 MindSpore 活动规划）  
+**影响平台**: kimi, perplexity（2 平台）  
+**内容源判定**: ✅ 是内容源问题（活动页面未标注联合活动的社区归属，导致 AI 无法区分边界）
+
+### 涉及问题
+
+- `q_032` MindSpore 2026 年有哪些活动规划？
+
+### 问题描述
+
+2/5 平台（kimi 和 perplexity）均将"量子计算黑客松"列为 MindSpore 2026 年活动之一。量子计算黑客松为 openEuler/openGauss 生态的系列赛事（如"第七届量子计算黑客松"），并非 MindSpore 专属活动。
+
+**kimi（情节较重）**  
+kimi 直接声称"预计将继续举办量子计算、大模型应用等主题的黑客松大赛（参考 2025 年第七届量子计算黑客松模式）"，未标注来源为 openEuler，用户将其视为 MindSpore 的独立活动。
+
+**perplexity（情节较轻）**  
+perplexity 注明来源为"openEuler 社区 2026 年度规划页面（含联合活动）"，但仍将其纳入"MindSpore 2026 年活动规划"的回答框架中。用户仍可能误以为这是 MindSpore 主办或主要参与的活动。
+
+该模式目前为 2/5 平台，尚未触发内容源升级阈值（≥3 平台），但鉴于两个主流平台均出现，建议纳入改进计划。
+
+### 建议改进措施
+
+1. **联合活动标注社区归属**：在 mindspore.cn/activities 中，对与 openEuler/openGauss 联合举办的活动，明确标注 `[openEuler联合]` 标签，并链接至 openEuler 官方活动页
+2. **社区边界声明**：在活动页面顶部添加一行说明："本页面收录 MindSpore 社区主办或联合主办的活动；华为其他开源项目（openEuler/openGauss）活动请访问各自社区页面"
+3. **长效**：如量子计算黑客松与 MindSpore 无直接关联，建议在官方渠道中明确声明，或在跨社区活动页面上清晰注明 MindSpore 的参与角色
+
+### 影响范围
+
+- **涉及平台**: kimi, perplexity
+- **现象分类**: entity_confusion
+- **GEO 目录参考**: `DIS-03, CTX-04, REF-06`
+
+### 参考信息
+
+- **分析来源**: GEO Search Assessment（MindSpore version4，多平台）
+- **评估日期**: 2026-03-27
+- **关联问题 ID**: q_032
+- **评分结果文件**: `MindSpore/version4/scoring-results.json`
+
+---
+> 此 Issue 由 GEO Search Assessment 系统自动生成。建议在人工核实评分结果后再提交。
+
 ---
